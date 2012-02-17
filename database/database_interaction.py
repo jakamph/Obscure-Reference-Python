@@ -33,9 +33,6 @@ class Database_Interaction:
       #save the user name and password 
       self._client.email = username
       self._client.password = password
-
-      #default the player table
-      self._player_table = None
       
       #log in to the system 
       self._client.ProgrammaticLogin()
@@ -48,6 +45,9 @@ class Database_Interaction:
       #get the list of spreadsheets
       self._spreadsheet_list = self._client.GetSpreadsheetsFeed()
       self._key = -1
+
+      #create an empty list of the tables.
+      self._table_list = {}
       
       #make sure we got a list
       if self._spreadsheet_list <> None:
@@ -58,6 +58,9 @@ class Database_Interaction:
                   self._database_sheet = sheet
                   path_parts = sheet.id.text.split( '/' )
                   self._key = path_parts[len(path_parts) - 1]
+
+                  #we found a match. break out of the loop
+                  break
               #end if database name matches
 
           #end loop through the database list
@@ -117,5 +120,30 @@ class Database_Interaction:
       return worksheet_to_return
 
    #end Get_Table
+
+   def Get_Line( self,
+                 worksheet_id,
+                 key ):
+      """This method will search through the specified worksheet for the 
+      specified key."""
+
+      None
+   #end Get_Line
+
+   def Set_Line( self,
+                 worksheet_feed,
+                 index,
+                 new_data ):
+      """This method is used to update the specified index in the feed
+      with the specfied data."""
+
+      successful_set = self._client.UpdateRow( worksheet_feed.entry[index],
+                                               new_data )
+
+      if None == successful_set:
+         print( "Wasn't able to set the specified data." )
+      #end if not a successful set
+                 
+   # end Set_Line
 
 #end Database_Interaction   

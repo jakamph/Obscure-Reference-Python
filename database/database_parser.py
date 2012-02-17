@@ -7,16 +7,32 @@
 # Date: February 16, 2012
 #
 
+import string_definitions
 import database_interaction
 
 class Database_Parser( database_interaction.Database_Interaction ):
 
+   def __init__( self,
+                 username,
+                 password, 
+                 database_name ):
+
+      #default the player table
+      self._player_table = None
+
+      #call the parent class's constructor
+      database_interaction.Database_Interaction.__init__( self,
+                                                          username,
+                                                          password,
+                                                          database_name )
+   #end __init__
 
    def Reload_Players( self ):
       """This method will reload the player table"""
       
       #retrieve the player table
-      self._player_table = self.Get_Table( _player_table_name )
+      self._player_table = \
+         self.Get_Table( string_definitions.player_table_name )
 
       #get the feed 
       self._player_feed = \
@@ -52,6 +68,9 @@ class Database_Parser( database_interaction.Database_Interaction ):
                #end loop through the keys
                player_data["row_reference"] = player
                player_data["index"] = index
+
+               #we found a match, so break out of the loop
+               break
             #end if found a match
          #get the player line
                   
@@ -63,7 +82,31 @@ class Database_Parser( database_interaction.Database_Interaction ):
 
       return player_data
 
-   #end Get_Player_Data
+   #end Get_Player_Line
+
+   def Update_Player_Line( self,
+                           player_data ):
+      """This method will update the data of the specified player."""
+      # Note: The parameter player_data needs to be a map of 
+      # data in the same format as is retrieved from Get_Player_Data
+
+      formatted_player_data = {}
+
+      for key in player_data:
+
+         #make sure that this is something that we're supposed to copy
+         if key not in string_definitions.added_player_data:
+
+            #save the data in the formatted structure
+            formatted_player_data[key] = player_data[key]
+
+         #end if something to copy
+      #end loop through player data
+
+      self.Set_Line( self._player_feed,
+                     player_data["index"],
+                     formatted_player_data )
+                           
 
    def Get_Team_Table( self,
                        team_name ):
