@@ -16,7 +16,7 @@ import atom.service
 import gdata.spreadsheet
 
 
-import string_definitions
+import common.string_definitions
 
 class Database_Interaction:
 
@@ -99,7 +99,7 @@ class Database_Interaction:
 
                      #set the variable to return
                      worksheet_to_return = worksheet
-                     worksheet_to_return.key = _wksht_id
+                     worksheet_to_return._key = _wksht_id
 
                      #save this reference
                      self._table_list[table_name] = worksheet_to_return
@@ -122,12 +122,87 @@ class Database_Interaction:
    #end Get_Table
 
    def Get_Line( self,
-                 worksheet_id,
-                 key ):
+                 feed,
+                 key_string,
+                 value,
+                 start_position = 0,
+                 end_position = "end",
+                 check_upper = True,
+                 check_lower = True ):
       """This method will search through the specified worksheet for the 
       specified key."""
 
-      None
+      found_line = None
+
+      new_start = start_position
+      new_end   = end_position
+
+      #if we had the default end position
+      if end_position is "end":
+
+         end_position = len( feed.entry ) - 1
+
+      #end if default end position
+
+      #if we're supposed to check the upper limit
+      if check_upper:
+         if value.upper() == feed.entry[start_position].\
+                                custom[key_string].text.upper():
+            found_line = feed.entry[start_position]
+         #end if match of upper
+      #end if check upper 
+
+      #if we're supposed to check the upper limit
+      if check_lower:
+         if value.upper() == feed.entry[end_position].\
+                                custom[key_string].text.upper():
+            found_line = feed.entry[end_position]
+         #end if match of lower
+      #end if check lower
+
+      #find the mid-point
+      mid_point = int( (start_position + end_position) / 2 )
+
+      current_name = feed.entry[mid_point].\
+                             custom[key_string].text.upper()
+
+      #check the mid-point
+      if value.upper() == feed.entry[mid_point].\
+                              custom[key_string].text.upper():
+         found_line = feed.entry[mid_point]
+      #end if match of lower
+
+      check_upper = False
+      check_lower = False
+      current_name = feed.entry[mid_point].\
+                             custom[key_string].text.upper()
+
+      #if we still haven't found a match and we have more than 2 things
+      if found_line is None and (end_position - start_position > 1):
+         if value.upper() < feed.entry[mid_point].\
+                             custom[key_string].text.upper():
+            #make the mid_point the new end
+            new_end = mid_point
+         #end if searched for value is less than the current mid_point
+         else:
+
+            #make the mid_point the new start
+            new_start = mid_point
+         #is searched for value is greater than the current mid_point
+
+         #recursion makes me nervous
+         found_line = self.Get_Line( feed           = feed,
+                                     key_string     = key_string,
+                                     value          = value,
+                                     start_position = new_start,
+                                     end_position   = new_end,
+                                     check_upper    = False,
+                                     check_lower    = False )
+
+      #end if no match yet
+
+      return found_line
+
    #end Get_Line
 
    def Set_Line( self,
@@ -145,5 +220,14 @@ class Database_Interaction:
       #end if not a successful set
                  
    # end Set_Line
+
+   def Get_Feed( self,
+                 table ):
+      """This method will retrieve the feed of the specified table."""
+
+      return self._client.GetListFeed( self._key,
+                                       table._key )
+
+   #end Get_Feed
 
 #end Database_Interaction   

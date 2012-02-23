@@ -7,7 +7,8 @@
 # Date: February 16, 2012
 #
 
-import string_definitions
+#import obscure_reference.common.string_definitions
+import common.string_definitions
 import database_interaction
 
 class Database_Parser( database_interaction.Database_Interaction ):
@@ -32,13 +33,24 @@ class Database_Parser( database_interaction.Database_Interaction ):
       
       #retrieve the player table
       self._player_table = \
-         self.Get_Table( string_definitions.player_table_name )
+         self.Get_Table( common.string_definitions.player_table_name )
 
       #get the feed 
-      self._player_feed = \
-         self._client.GetListFeed( self._key,
-                                   self._player_table.key )
+      self._player_feed = self.Get_Feed( self._player_table )
+         
    #end Reload_Players
+
+   def Reload_Managers( self ):
+      """This method will reload the managers table"""
+
+      #retrieve the manager table
+      self._manager_table = \
+         self.Get_Table( common.string_definitions.manager_table_name )
+
+      #get the feed
+      self._manager_feed = self.Get_Feed( self._manager_table )
+
+   #end Reload_Managers
 
    def Get_Player_Line( self,
                         player_name ):
@@ -46,6 +58,9 @@ class Database_Parser( database_interaction.Database_Interaction ):
 
       #default the player line
       player_data = {}
+
+      #make a shorter variable for readability
+      name_field = string_definitions.player_name
 
       #make sure that we received a valid player name
       if self._player_table is None:
@@ -61,7 +76,7 @@ class Database_Parser( database_interaction.Database_Interaction ):
          for index, player in enumerate( self._player_feed.entry ):
 
             #if we've found a match
-            if player.title.text.upper() == player_name.upper():
+            if player.custom[name_field].text.upper() == player_name.upper():
 
                for key in player.custom:
                   player_data[key] = player.custom[key].text
@@ -73,7 +88,6 @@ class Database_Parser( database_interaction.Database_Interaction ):
                break
             #end if found a match
          #get the player line
-                  
 
       #end if player table is not none
       else:
@@ -83,6 +97,61 @@ class Database_Parser( database_interaction.Database_Interaction ):
       return player_data
 
    #end Get_Player_Line
+
+
+   def Get_Manager_Line( self,
+                         manager_login = None,
+                         manager_name = None ):
+      """This method will retrieve the manager specified by ether
+      the login or the name."""
+
+      manager_data = {}
+
+      key_string = None
+      search_key = None
+
+      if manager_login <> None:
+         key_string = manager_login
+         search_key = string_definitions.manager_login_name
+      #end if searching for manager_login
+      elif manager_name <> None:
+         key_string = manager_name
+         search_key = string_definitions.manager_name
+      #end if searching for manager_name
+      else:
+         print( "No valid search key for Get_Manager_Line" )
+      #problem
+
+      #retrieve the manager table if we haven't already
+      if self._manager_table is None:
+         self.Reload_Managers( )
+      #end if manager table is none
+
+      #make sure that we have the manager table
+      if self._manager_table <> None:
+
+         #loop through the managers, looking for the specified manager
+         for index, manager in enumerate( self._manager_feed.entry ):
+
+            #if we've found a match
+            if manager.custom[search_key].text.upper() == key_string.upper():
+
+               for key in manager.custom:
+                  manager_data[key] = manager.custom[key].text
+               #end loop through the keys
+               manager_data["row_reference"] = manager
+               manager_data["index"] = index
+
+               #we found a match, so break out of the loop
+               break
+            #end if found a match
+         #get the manager line
+      #end if valid manager table
+      else:
+         print( "Invalid manager table." )
+      #end if not valid manager table 
+
+   #end Get_Manager_Line
 
    def Update_Player_Line( self,
                            player_data ):
@@ -106,7 +175,9 @@ class Database_Parser( database_interaction.Database_Interaction ):
       self.Set_Line( self._player_feed,
                      player_data["index"],
                      formatted_player_data )
-                           
+
+   #end Update_Player_Line
+
 
    def Get_Team_Table( self,
                        team_name ):

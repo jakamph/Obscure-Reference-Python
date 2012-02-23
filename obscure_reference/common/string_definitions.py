@@ -6,7 +6,12 @@
 # Date: February 16, 2012
 #
 
-player_table_name = "Players"
+player_table_name = "players"
+managers_table_name = "managers"
+manager_login_name = "manager"
+manager_name = "fullname"
+
+player_name_field = "name"
 
 default_database_name = "Obscure Reference Database"
 
