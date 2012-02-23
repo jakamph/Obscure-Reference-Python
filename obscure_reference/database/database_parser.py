@@ -7,8 +7,7 @@
 # Date: February 16, 2012
 #
 
-#import obscure_reference.common.string_definitions
-import common.string_definitions as string_definitions
+import obscure_reference.common.string_definitions as string_definitions
 import database_interaction
 
 class Database_Parser( database_interaction.Database_Interaction ):
@@ -33,7 +32,7 @@ class Database_Parser( database_interaction.Database_Interaction ):
       
       #retrieve the player table
       self._player_table = \
-         self.Get_Table( common.string_definitions.player_table_name )
+         self.Get_Table( string_definitions.player_table_name )
 
       #get the feed 
       self._player_feed = self.Get_Feed( self._player_table )
@@ -45,58 +44,12 @@ class Database_Parser( database_interaction.Database_Interaction ):
 
       #retrieve the manager table
       self._manager_table = \
-         self.Get_Table( common.string_definitions.manager_table_name )
+         self.Get_Table( string_definitions.manager_table_name )
 
       #get the feed
       self._manager_feed = self.Get_Feed( self._manager_table )
 
    #end Reload_Managers
-
-   def Get_Player_Line( self,
-                        player_name ):
-      """This method will retrive the specified player."""      
-
-      #default the player line
-      player_data = {}
-
-      #make a shorter variable for readability
-      name_field = string_definitions.player_name_field
-
-      #make sure that we received a valid player name
-      if self._player_table is None:
-
-         self.Reload_Players()
-
-      #end if no player table
-
-      #check to make sure we now have a player table
-      if self._player_table <> None:
-
-         #loop through the players, looking for the specified player
-         for index, player in enumerate( self._player_feed.entry ):
-
-            #if we've found a match
-            if player.custom[name_field].text.upper() == player_name.upper():
-
-               for key in player.custom:
-                  player_data[key] = player.custom[key].text
-               #end loop through the keys
-               player_data["row_reference"] = player
-               player_data["index"] = index
-
-               #we found a match, so break out of the loop
-               break
-            #end if found a match
-         #get the player line
-
-      #end if player table is not none
-      else:
-         print( "Could not retrieve player table" )
-      #end if no player table
-
-      return player_data
-
-   #end Get_Player_Line
 
 
    def Get_Manager_Line( self,
@@ -153,6 +106,54 @@ class Database_Parser( database_interaction.Database_Interaction ):
 
    #end Get_Manager_Line
 
+
+   def Get_Player_Line( self,
+                        player_name ):
+      """This method will retrive the specified player."""      
+
+      #default the player line
+      player_data = {}
+
+      #make a shorter variable for readability
+      name_field = string_definitions.player_name_field
+
+      #make sure that we received a valid player name
+      if self._player_table is None:
+
+         self.Reload_Players()
+
+      #end if no player table
+
+      #check to make sure we now have a player table
+      if self._player_table <> None:
+
+         #retrieve the player line
+         player = self.Get_Line( self._player_feed,
+                                 string_definitions.player_name_field,
+                                 player_name )
+
+         #if we've found a match
+         if player <> None:
+
+            for key in player.custom:
+               player_data[key] = player.custom[key].text
+            #end loop through the keys
+            player_data["row_reference"] = player
+            player_data["index"] = 0
+
+            #we found a match, so break out of the loop
+            break
+         #end if found a match
+
+      #end if player table is not none
+      else:
+         print( "Could not retrieve player table" )
+      #end if no player table
+
+      return player_data
+
+   #end Get_Player_Line
+
    def Set_Player_Line( self,
                         player_data ):
       """This method will update the data of the specified player."""
@@ -173,11 +174,19 @@ class Database_Parser( database_interaction.Database_Interaction ):
       #end loop through player data
 
       self.Set_Line( self._player_feed,
-                     player_data["index"],
+                     player_data["row_reference"],
                      formatted_player_data )
 
    #end Set_Player_Line
 
+   def Add_Player( self,
+                   player_data ):
+      """This method will add a player to the player table."""
+
+      #pass the data on to Add a generic row to the player table.
+      self.Insert_Line( player_data, self._player_table._key )
+
+   #end Add_Player                   
 
    def Get_Team_Table( self,
                        team_name ):

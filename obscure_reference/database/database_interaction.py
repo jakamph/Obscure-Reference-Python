@@ -16,7 +16,7 @@ import atom.service
 import gdata.spreadsheet
 
 
-import common.string_definitions
+import obscure_reference.common.string_definitions as string_definitions
 
 class Database_Interaction:
 
@@ -58,6 +58,7 @@ class Database_Interaction:
                   self._database_sheet = sheet
                   path_parts = sheet.id.text.split( '/' )
                   self._key = path_parts[len(path_parts) - 1]
+                  self._full_key = sheet.id.text
 
                   #we found a match. break out of the loop
                   break
@@ -206,13 +207,12 @@ class Database_Interaction:
    #end Get_Line
 
    def Set_Line( self,
-                 worksheet_feed,
-                 index,
+                 line_item,
                  new_data ):
       """This method is used to update the specified index in the feed
       with the specfied data."""
 
-      successful_set = self._client.UpdateRow( worksheet_feed.entry[index],
+      successful_set = self._client.UpdateRow( line_item,
                                                new_data )
 
       if None == successful_set:
@@ -220,6 +220,16 @@ class Database_Interaction:
       #end if not a successful set
                  
    # end Set_Line
+
+   def Insert_Line( self,
+                    data,
+                    worksheet_key ):
+      """This method is used to add a new line to the specified worksheet."""
+
+      #send the row to the spreadsheet
+      self._client.InsertRow( data, self._key, worksheet_key )
+
+   #end Insert_Line
 
    def Get_Feed( self,
                  table ):
