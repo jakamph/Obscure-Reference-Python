@@ -8,7 +8,7 @@
 #
 
 #import obscure_reference.common.string_definitions
-import common.string_definitions
+import common.string_definitions as string_definitions
 import database_interaction
 
 class Database_Parser( database_interaction.Database_Interaction ):
@@ -60,7 +60,7 @@ class Database_Parser( database_interaction.Database_Interaction ):
       player_data = {}
 
       #make a shorter variable for readability
-      name_field = string_definitions.player_name
+      name_field = string_definitions.player_name_field
 
       #make sure that we received a valid player name
       if self._player_table is None:
@@ -153,8 +153,8 @@ class Database_Parser( database_interaction.Database_Interaction ):
 
    #end Get_Manager_Line
 
-   def Update_Player_Line( self,
-                           player_data ):
+   def Set_Player_Line( self,
+                        player_data ):
       """This method will update the data of the specified player."""
       # Note: The parameter player_data needs to be a map of 
       # data in the same format as is retrieved from Get_Player_Data
@@ -176,7 +176,7 @@ class Database_Parser( database_interaction.Database_Interaction ):
                      player_data["index"],
                      formatted_player_data )
 
-   #end Update_Player_Line
+   #end Set_Player_Line
 
 
    def Get_Team_Table( self,
