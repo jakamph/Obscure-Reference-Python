@@ -1,6 +1,6 @@
 ##
 # This file is used for and initialization
-# of the obscure_reference package.
+# of the database package.
 #
 # Author: Paul Forbes
 #
