@@ -138,11 +138,9 @@ class Database_Parser( database_interaction.Database_Interaction ):
             for key in player.custom:
                player_data[key] = player.custom[key].text
             #end loop through the keys
-            player_data["row_reference"] = player
-            player_data["index"] = 0
+            player_data[string_definitions.player_row_reference] = player
+            player_data[string_definitions.player_index] = 0
 
-            #we found a match, so break out of the loop
-            break
          #end if found a match
 
       #end if player table is not none
@@ -174,7 +172,7 @@ class Database_Parser( database_interaction.Database_Interaction ):
       #end loop through player data
 
       self.Set_Line( self._player_feed,
-                     player_data["row_reference"],
+                     player_data[string_definitions.player_row_reference],
                      formatted_player_data )
 
    #end Set_Player_Line
@@ -187,6 +185,15 @@ class Database_Parser( database_interaction.Database_Interaction ):
       self.Insert_Line( player_data, self._player_table._key )
 
    #end Add_Player                   
+
+   def Delete_Player( self,
+                      player_data ):
+      """This method will delete a player from the database."""
+
+      #call to delete the line
+      self.Delete_Line( player_data[string_definitions.player_row_reference] )
+
+   #end Delete_Player
 
    def Get_Team_Table( self,
                        team_name ):

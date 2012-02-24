@@ -11,7 +11,10 @@ player_table_name = "players"
 player_name_field = "name"
 salary_field_prefix = "salary"
 
-added_player_data = ["index", "row_reference"]
+player_row_reference = "row_reference"
+player_index = "index"
+
+added_player_data = [player_index, player_row_reference]
 
 #manager table definitions
 managers_table_name = "managers"

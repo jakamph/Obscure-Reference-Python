@@ -231,6 +231,16 @@ class Database_Interaction:
 
    #end Insert_Line
 
+   def Delete_Line( self,
+                    line_item ):
+      """This method will delete the specified line from the worksheed."""
+
+      #send the command to remove the line
+      self._client.DeleteRow( line_item )
+
+
+   #end Delete_Line
+
    def Get_Feed( self,
                  table ):
       """This method will retrieve the feed of the specified table."""
