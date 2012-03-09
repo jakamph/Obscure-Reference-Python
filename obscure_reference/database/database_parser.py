@@ -8,7 +8,7 @@
 #
 
 import obscure_reference.common.string_definitions as string_definitions
-import database_interaction
+import obscure_reference.database.database_interaction as database_interaction
 
 class Database_Parser( database_interaction.Database_Interaction ):
 
@@ -36,8 +36,13 @@ class Database_Parser( database_interaction.Database_Interaction ):
 
       #get the feed 
       self._player_feed = self.Get_Feed( self._player_table )
-         
+
    #end Reload_Players
+
+   def Get_Player_List( self ):
+      """This method will retrieve the list of players."""
+      return self._player_feed.entry
+   #end Get_Player_List
 
    def Reload_Managers( self ):
       """This method will reload the managers table"""
