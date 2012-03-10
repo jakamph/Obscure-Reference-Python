@@ -49,7 +49,7 @@ class Database_Parser( database_interaction.Database_Interaction ):
 
       #retrieve the manager table
       self._manager_table = \
-         self.Get_Table( string_definitions.manager_table_name )
+         self.Get_Table( string_definitions.managers_table_name )
 
       #get the feed
       self._manager_feed = self.Get_Feed( self._manager_table )
@@ -134,7 +134,7 @@ class Database_Parser( database_interaction.Database_Interaction ):
 
          #retrieve the player line
          player = self.Get_Line( self._player_feed,
-                                 string_definitions.player_name_field,
+                                 name_field,
                                  player_name )
 
          #if we've found a match

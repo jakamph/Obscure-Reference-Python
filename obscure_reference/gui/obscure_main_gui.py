@@ -30,27 +30,38 @@ class Obscure_Main_Gui( Window ):
       #save the controller
       self._controller = controller
 
+      #the navigation frame will take up the left third of the screen
+      nav_width = self.width / 3
+      height = self.height
+      
+      #the main frame will take up the right 2/3's of the screen
+      main_width = self.width * 2 / 3
+
       #create the navigation frame
-      self._nav_frame = Frame( width = 300 ) 
+      self._nav_frame = Frame( width = nav_width,
+                               height = height ) 
 
-      self._nav_frame.place_column([Label("This is"),
-                                    Label(" the nav "),
-                                    Label("frame")],
-                                   left = 0, top = 0)
+      self._nav_frame.place_column([Label("My Team"),
+                                    Label("Obscure Reference League"),
+                                    Label("Players")],
+                                   left = 0, 
+                                   top = 0)
 
-      self._nav_frame.shrink_wrap( padding = (30, 30))
+      #self._nav_frame.shrink_wrap( padding = (30, 30))
 
 
       self.place( self._nav_frame, left = 20, top = 20 )
 
       #create the main frame
-      self._main_frame = Frame( )
+      self._main_frame = Frame( width = main_width,
+                                height = height )
       
       self._sub_frame = Frame( )
       self._sub_frame.place_column( [Label("This is"),
                                      Label("the sub"),
                                      Label("frame.")],
-                                   left = 0, top = 0)
+                                   left = 0, 
+                                   top = 0)
       self._main_frame.place( self._sub_frame )
       
 

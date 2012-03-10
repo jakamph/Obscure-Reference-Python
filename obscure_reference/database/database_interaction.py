@@ -51,20 +51,18 @@ class Database_Interaction:
       
       #make sure we got a list
       if self._spreadsheet_list <> None:
-          for sheet in self._spreadsheet_list.entry:
-              
-              if database_name == sheet.title.text:
+         for sheet in self._spreadsheet_list.entry:
+            if database_name == sheet.title.text:
                   
-                  self._database_sheet = sheet
-                  path_parts = sheet.id.text.split( '/' )
-                  self._key = path_parts[len(path_parts) - 1]
-                  self._full_key = sheet.id.text
+               self._database_sheet = sheet
+               path_parts = sheet.id.text.split( '/' )
+               self._key = path_parts[len(path_parts) - 1]
+               self._full_key = sheet.id.text
+               #we found a match. break out of the loop
+               break
+            #end if database name matches
 
-                  #we found a match. break out of the loop
-                  break
-              #end if database name matches
-
-          #end loop through the database list
+         #end loop through the database list
 
       #end if we got a spreadsheet list      
 
@@ -91,22 +89,19 @@ class Database_Interaction:
 
             #loop through the possible worksheets
             for worksheet in self._worksheet_list.entry:
+               #if we've found a match for our title
+               if table_name == worksheet.title.text:
+                  path_parts = worksheet.id.text.split( '/' )
+                  _wksht_id = path_parts[len(path_parts) - 1]
 
-                 #if we've found a match for our title
-                 if table_name == worksheet.title.text:
-                     
-                     path_parts = worksheet.id.text.split( '/' )
-                     _wksht_id = path_parts[len(path_parts) - 1]
+                  #set the variable to return
+                  worksheet_to_return = worksheet
+                  worksheet_to_return._key = _wksht_id
 
-                     #set the variable to return
-                     worksheet_to_return = worksheet
-                     worksheet_to_return._key = _wksht_id
+                  #save this reference
+                  self._table_list[table_name] = worksheet_to_return
 
-                     #save this reference
-                     self._table_list[table_name] = worksheet_to_return
-
-                  #end if database name matches
-
+               #end if database name matches
             #end loop through the database list
                      
             if _wksht_id == '':
@@ -210,7 +205,7 @@ class Database_Interaction:
                  line_item,
                  new_data ):
       """This method is used to update the specified index in the feed
-      with the specfied data."""
+      with the specified data."""
 
       successful_set = self._client.UpdateRow( line_item,
                                                new_data )
@@ -233,7 +228,7 @@ class Database_Interaction:
 
    def Delete_Line( self,
                     line_item ):
-      """This method will delete the specified line from the worksheed."""
+      """This method will delete the specified line from the worksheet."""
 
       #send the command to remove the line
       self._client.DeleteRow( line_item )

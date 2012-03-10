@@ -14,7 +14,7 @@ class Main_Application( Application ):
    def __init__( self ):
       """This is the constructor for the object."""
 
-      #call the parent contructor
+      #call the parent constructor
       Application.__init__( self )
 
    #end __init__

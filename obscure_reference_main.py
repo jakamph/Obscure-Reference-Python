@@ -36,6 +36,8 @@ import gdata.service
 
 import obscure_reference.application.main_application as main_application
 
+from GUI import Frame
+
 #create the master class
 class Obscure_Reference_Main( main_application.Main_Application ):
 
@@ -121,6 +123,14 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       #end if valid parser
 
    #end Load_Player_Data
+
+   def Get_Player_Frame( self ):
+      """This method will retrieve the player list frame."""
+      
+      player_frame = Frame( )
+      
+      return player_frame
+   #end Get_Player_Frame
 
    #this method doesn't conform to naming standard because it is 
    #automatically called by the GUI framework
