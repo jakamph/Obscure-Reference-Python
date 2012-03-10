@@ -10,6 +10,9 @@
 from GUI import Window
 from GUI import Frame
 from GUI import Label
+from GUI import Button
+
+import obscure_reference.application.main_application as main_application
 
 class Obscure_Main_Gui( Window ):
 
@@ -41,14 +44,14 @@ class Obscure_Main_Gui( Window ):
       self._nav_frame = Frame( width = nav_width,
                                height = height ) 
 
-      self._nav_frame.place_column([Label("My Team"),
-                                    Label("Obscure Reference League"),
-                                    Label("Players")],
+      self._nav_frame.place_column([Button(title = "My Team", 
+                                           action = "Go_To_My_Team"),
+                                    Button(title = "Obscure Reference League",
+                                           action = "Go_To_League"),
+                                    Button(title = "Players",
+                                           action = "Go_To_Players")],
                                    left = 0, 
                                    top = 0)
-
-      #self._nav_frame.shrink_wrap( padding = (30, 30))
-
 
       self.place( self._nav_frame, left = 20, top = 20 )
 
@@ -63,11 +66,8 @@ class Obscure_Main_Gui( Window ):
                                    left = 0, 
                                    top = 0)
       self._main_frame.place( self._sub_frame )
-      
 
       self.place( self._main_frame, left = self._nav_frame.right, top = 20 )
-
-      #self.shrink_wrap( padding = (20, 20) )
 
    #end __init
 
@@ -80,5 +80,48 @@ class Obscure_Main_Gui( Window ):
       self._main_frame.place( new_frame )
       
    #end Receive_New_Frame
+
+   def resized( self,
+                delta ):
+      """This method is automatically called when the window is resized."""
+
+      None
+
+      #change the size of the nav frame
+      #self._nav_frame.resize
+      
+      #change the size of the main frame
+
+   #end resized
+
+   def Go_To_My_Team( self ):
+      """This method will tell the parent that the user wants their team to
+      be displayed."""
+      None
+   #end Go_To_My_Team
+
+   def Go_To_League( self ):
+      """This method will tell the controller that the user wants to display
+      the league information."""
+      
+      None
+   #end Go_To_League
+
+   def Go_To_Players( self ):
+
+      """This method will tell the controller that the user wants to display
+      the list of players."""
+      self._controller.Show_Players( )
+   #end Go_To_Players
+
+   def Get_Width( self ):
+      """This method will retrieve the width of this window."""
+      return self.width
+   #end Get_Width
+   
+   def Get_Height( self ):
+      """This method will retrieve the height of this window."""
+      return self.height
+   #end Get_Height
 
 #end class Obscure_Main_Gui

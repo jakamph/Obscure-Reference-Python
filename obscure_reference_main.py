@@ -172,6 +172,20 @@ class Obscure_Reference_Main( main_application.Main_Application ):
 
    #end open_app
 
+   def Show_Players( self ):
+      """This method will cause the list of players to be displayed."""
+      
+      #get the latest player list
+      self.Load_Player_Data( )
+      
+      #create the player frame
+      self._player_frame = Player_Frame( self._player_list )
+      
+      #give the new frame to the main GUI
+      self._main_gui.Receive_New_Frame( self._player_frame )
+
+   #end Show_Players
+
 #end Obscure_Reference_Main
 
 #create the instance of the class to be run
