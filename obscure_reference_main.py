@@ -179,7 +179,7 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       self.Load_Player_Data( )
       
       #create the player frame
-      self._player_frame = Player_Frame( self._player_list )
+      self._player_frame = player_frame.Player_Frame( self._player_list )
       
       #give the new frame to the main GUI
       self._main_gui.Receive_New_Frame( self._player_frame )

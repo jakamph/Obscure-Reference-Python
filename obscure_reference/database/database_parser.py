@@ -114,7 +114,7 @@ class Database_Parser( database_interaction.Database_Interaction ):
 
    def Get_Player_Line( self,
                         player_name ):
-      """This method will retrive the specified player."""      
+      """This method will retrieve the specified player."""      
 
       #default the player line
       player_data = {}

@@ -44,12 +44,21 @@ class Obscure_Main_Gui( Window ):
       self._nav_frame = Frame( width = nav_width,
                                height = height ) 
 
-      self._nav_frame.place_column([Button(title = "My Team", 
-                                           action = "Go_To_My_Team"),
-                                    Button(title = "Obscure Reference League",
-                                           action = "Go_To_League"),
-                                    Button(title = "Players",
-                                           action = "Go_To_Players")],
+      self._my_team_button = Button( title = "My Team", 
+                                     action = "Go_To_My_Team",
+                                     width = nav_width )
+
+      self._league_button = Button( title = "Obscure Reference League",
+                                    action = "Go_To_League",
+                                     width = nav_width )
+
+      self._players_button = Button( title = "Players",
+                                     action = "Go_To_Players",
+                                     width = nav_width )
+
+      self._nav_frame.place_column([self._my_team_button,
+                                    self._league_button,
+                                    self._players_button],
                                    left = 0, 
                                    top = 0)
 

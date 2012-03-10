@@ -9,6 +9,8 @@
 #player table definitions
 player_table_name = "players"
 player_name_field = "name"
+player_draft_year = "draftyear"
+player_team = "team"
 salary_field_prefix = "salary"
 
 player_row_reference = "row_reference"
