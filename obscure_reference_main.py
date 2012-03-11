@@ -17,6 +17,10 @@ _path_suffixes = [ "/third-party/gdata-2.0.16/src",
 #get the current running directory
 _base_directory = os.getcwd( )
 
+_resource_directory = _base_directory + "obscure_reference/resources/"
+
+_logo_file = _resource_directory + "obscure_reference_logo.png"
+
 #add the third party directories
 for suffix in _path_suffixes:
 
@@ -63,10 +67,6 @@ class Obscure_Reference_Main( main_application.Main_Application ):
 
       #show the dialog
       _credentials.present( )
-
-      if _credentials.Get_User_Canceled():
-         print( "User canceled.")
-      
 
       #loop until we get a successful login or the user has canceled
       while self._parser is None and not _credentials.Get_User_Canceled():
@@ -160,7 +160,8 @@ class Obscure_Reference_Main( main_application.Main_Application ):
 
          #create the main GUI
          self._main_gui = \
-            obscure_main_gui.Obscure_Main_Gui( controller = self )
+            obscure_main_gui.Obscure_Main_Gui( controller = self,
+                                               logo_file = _logo_file )
          
          #display the main GUI
          self._main_gui.show( )
