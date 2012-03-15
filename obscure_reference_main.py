@@ -34,6 +34,7 @@ import obscure_reference.database.database_parser as database_parser
 import obscure_reference.common.string_definitions as string_definitions
 import obscure_reference.reference_objects.player as player
 import obscure_reference.gui.obscure_main_gui as obscure_main_gui
+import obscure_reference.gui.player_frame as player_frame
 
 #we need access to the BadAuthentication error
 import gdata.service
@@ -186,6 +187,14 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       self._main_gui.Receive_New_Frame( self._player_frame )
 
    #end Show_Players
+
+   def Show_Transactions( self ):
+      """This method will cause the list of pending transactions to be
+      displayed."""
+      
+      None
+      
+   #end Show_Transactions
 
 #end Obscure_Reference_Main
 

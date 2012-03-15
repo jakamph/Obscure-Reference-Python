@@ -30,6 +30,12 @@ class Main_Application( Application ):
       None
    #end Show_Players
 
+   def Show_Transactions(self):
+      """This method will cause the list of transactions to be shown. It
+      should be overridden by the sub class."""
+      None
+   #end Show_Transactions
+
    def Exit( self ):
       """This method will be used when it's time to close the application."""
       #call the parent quit command

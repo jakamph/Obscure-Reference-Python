@@ -13,6 +13,7 @@ from GUI import Label
 from GUI import Button
 from GUI import Font
 from GUI import Canvas
+from GUI import View
 from GUI import Image
 from GUI import Geometry
 
@@ -42,73 +43,37 @@ class Obscure_Main_Gui( Window ):
       self._controller = controller
 
       #the navigation frame will take up the left third of the screen
-      nav_width = self.width / 3
-      height = self.height
+      self._nav_width = self.width / 3
       
       #the main frame will take up the right 2/3's of the screen
-      main_width = self.width * 2 / 3
-
-      button_width = nav_width - number_constants.basic_pad
+      self._main_width = self.width * 2 / 3
 
       #create the bold font
       self._bold_font = Font( style = ["bold"] )
 
-      #create the navigation frame
-      self._nav_frame = Frame( width = nav_width,
-                               height = height ) 
-
-      #create the label to be at the top of the nav frame
-      self._nav_label = Label( "Navigation",
-                               just = "center",
-                               font = self._bold_font,
-                               width = button_width )
-
-      self._my_team_button = Button( title = "My Team", 
-                                     action = "Go_To_My_Team",
-                                     width = button_width )
-
-      self._league_button = Button( title = "Obscure Reference League",
-                                    action = "Go_To_League",
-                                     width = button_width )
-
-      self._players_button = Button( title = "Players",
-                                     action = "Go_To_Players",
-                                     width = button_width )
-
-      self._nav_frame.place_column([self._nav_label,
-                                    self._my_team_button,
-                                    self._league_button,
-                                    self._players_button],
-                                   left = 0, 
-                                   top = 0)
-
-      self.place( self._nav_frame, left = 20, top = 20 )
+      self._Create_Navigation_Frame( )
 
       #create the main frame
-      self._main_frame = Frame( width = main_width,
-                                height = height )
+      self._main_frame = Frame( width = self._main_width,
+                                height = self.height )
       
       #create the initial sub frame
       self._sub_frame = \
-         Frame( width = (main_width - number_constants.basic_pad),
-                height = height )
+         Frame( width = (self._main_width - number_constants.basic_pad),
+                height = self.height )
 
       self._logo_image = Image( logo_file )
-      
-      #draw the image in to the view
-      #self._logo_image.draw( \
-      #   self._intro_canvas,
-      #   self._logo_image.bounds,  
-      #   self._logo_image.bounds )
-      
-      
+      #self._intro_canvas = Canvas( None )
+      #self._intro_canvas = View( )
+      #self._intro_canvas = Frame( width = 500, height = 300 )
 
       #put the column on the GUI
       self._sub_frame.place_column( \
          [Label("Welcome to the Obscure Reference League",
                 just = "center",
-                width = (main_width - number_constants.basic_pad),
-                font = self._bold_font ),                
+                width = (self._main_width - number_constants.basic_pad),
+                font = self._bold_font ),
+          #self._intro_canvas],          
           Label( "I would really like an image to be displayed here.")],
          left = 0,
          top = 0)
@@ -116,7 +81,64 @@ class Obscure_Main_Gui( Window ):
 
       self.place( self._main_frame, left = self._nav_frame.right, top = 20 )
 
+      #draw the image in to the view
+      #self._logo_image.draw( \
+      #   self._intro_canvas,
+      #   self._logo_image.bounds,  
+      #   self._logo_image.bounds )
+
+
    #end __init
+
+   def _Create_Navigation_Frame( self ):
+      """This method will create the navigation frame."""
+
+      self._button_width = self._nav_width - number_constants.basic_pad
+
+      #create the navigation frame
+      self._nav_frame = Frame( width = self._nav_width,
+                               height = self.height ) 
+
+      #create the label to be at the top of the nav frame
+      self._nav_label = Label( "Navigation",
+                               just = "center",
+                               font = self._bold_font,
+                               width = self._button_width )
+
+      self._my_team_button = Button( title = "My Team", 
+                                     action = "Go_To_My_Team",
+                                     width = self._button_width )
+
+      self._league_button = Button( title = "Obscure Reference League",
+                                    action = "Go_To_League",
+                                     width = self._button_width )
+
+      self._players_button = Button( title = "Players",
+                                     action = "Go_To_Players",
+                                     width = self._button_width )
+
+      self._transactions_button = Button( title = "My Transactions",
+                                          action = "Go_To_Transactions",
+                                          width = self._button_width )
+      
+      self._exit_button = Button( title = "Exit",
+                                  action = "Exit_Commanded",
+                                  width = self._button_width )
+
+      #add the buttons to the frame
+      self._nav_frame.place_column([self._nav_label,
+                                    self._my_team_button,
+                                    self._league_button,
+                                    self._players_button,
+                                    self._transactions_button,
+                                    self._exit_button],
+                                   left = 0, 
+                                   top = 0)
+
+      self.place( self._nav_frame, left = 20, top = 20 )
+
+
+   #end _Create_Navigation_Frame
 
    def Receive_New_Frame( self,
                           new_frame ):
@@ -155,11 +177,30 @@ class Obscure_Main_Gui( Window ):
    #end Go_To_League
 
    def Go_To_Players( self ):
-
       """This method will tell the controller that the user wants to display
       the list of players."""
+      
+      #inform the controller that it's supposed to show the players
       self._controller.Show_Players( )
+
    #end Go_To_Players
+
+   def Go_To_Transactions( self ):
+      """This method will tell the controller that the user wants to display
+      the currently-pending transactions."""
+      
+      #inform the controller to show the user's transactions
+      self._controller.Show_Transactions( )
+      
+   #end Go_To_Transactions
+
+   def Exit_Commanded( self ):
+      """This method will cause the application to exit."""
+      
+      #inform the controller that it's time to go away.
+      self._controller.Exit( )
+
+   #end Exit_Commanded
 
    def Get_Width( self ):
       """This method will retrieve the width of this window."""
