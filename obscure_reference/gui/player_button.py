@@ -1,5 +1,5 @@
 ##
-# This file contains the definition of the Add_Player_Button class.
+# This file contains the definition of the Player_Button class.
 #
 # Author: Jason Kamphaugh
 #
@@ -8,7 +8,7 @@
 
 from GUI import Button
 
-class Add_Player_Button( Button ):
+class Player_Button( Button ):
 
    def __init__( self,
                  title,
@@ -19,7 +19,7 @@ class Add_Player_Button( Button ):
                  **kwds ):
       """This method is the constructor of the class."""
 
-      internal_action = "Add_Player_Clicked"
+      internal_action = "Player_Button_Clicked"
 
       #call the parent constructor
       Button.__init__( self,
@@ -35,11 +35,11 @@ class Add_Player_Button( Button ):
 
    #end init
 
-   def Add_Player_Clicked( self ):
+   def Player_Button_Clicked( self ):
       """This method will capture the event of this button being clicked. It
       will pass that information along to the parent."""
 
       #pass the information along to the parent
       exec( "self._parent." + self._callback + "( self._player )" ) 
 
-#end class Add_Player_Button
+#end class Player_Button
