@@ -42,6 +42,8 @@ import gdata.service
 import obscure_reference.application.main_application as main_application
 
 from GUI import Frame
+from GUI import ModalDialog
+from GUI import Label 
 
 #create the master class
 class Obscure_Reference_Main( main_application.Main_Application ):
@@ -89,6 +91,8 @@ class Obscure_Reference_Main( main_application.Main_Application ):
 
    #end _Perform_Login
 
+
+
    def Load_Player_Data( self ):
       """This method will load the latest player data to be used."""
 
@@ -110,6 +114,9 @@ class Obscure_Reference_Main( main_application.Main_Application ):
 
          self._player_list = {}
 
+         #get the list of keys available for the player table
+         self._player_keys = raw_player_list[0].custom.keys()
+
          #loop through the player list creating the objects
          for current_player in raw_player_list:
             
@@ -119,7 +126,12 @@ class Obscure_Reference_Main( main_application.Main_Application ):
 
             #add the new player to our list
             self._player_list[player_name] = \
-               player.Player( current_player )
+               player.Player( raw_data = current_player,
+                              receiver = self,
+                              add_player_function = "Add_Player",
+                              drop_player_function = "Drop_Player",
+                              trade_player_function = "Trade_Player",
+                              current_team = self._current_team )
          #end loop through players
       #end if valid parser
 
@@ -168,7 +180,12 @@ class Obscure_Reference_Main( main_application.Main_Application ):
          self._main_gui.show( )
 
          #while we're here, let's grab the player data
-         self.Load_Player_Data( )
+         #self.Load_Player_Data( )
+
+         # TODO: Load the team information and determine what the name of 
+         # the team for this player is.
+         self._current_team = "myteam"
+
 
       #end if user didn't cancel out
 
@@ -181,7 +198,9 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       self.Load_Player_Data( )
       
       #create the player frame
-      self._player_frame = player_frame.Player_Frame( self._player_list )
+      self._player_frame = \
+         player_frame.Player_Frame( player_list = self._player_list,
+                                    player_keys = self._player_keys )
       
       #give the new frame to the main GUI
       self._main_gui.Receive_New_Frame( self._player_frame )
@@ -195,6 +214,47 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       None
       
    #end Show_Transactions
+
+   def Add_Player( self,
+                   player ):
+      """This function will add the player to the current team."""
+      None
+   #end Add_Player
+
+   def Drop_Player( self,
+                    player ):
+      """This function will add the player to the current team."""
+      
+      #create the confirm dialog
+      confirm_dialog = ModalDialog( title = "Please Confirm" )
+      
+      confirm_dialog.place( Label(text = "Do you really want to drop" +\
+                                         player.Get_Name( ) + "?" ), 
+                            left = 20, top = 20 )
+
+      
+
+      #center the dialog
+      confirm_dialog.center( )
+      
+      #ask for confirmation to make sure that the user really wants to do
+      #this
+      confirm = confirm_dialog.present( )
+      
+      if confirm:
+         None
+      #end if user wants to continue
+      else:
+         None
+      #end if user does not want to continue
+         
+   #end Drop_Player
+
+   def Trade_Player( self,
+                     player ):
+      """This function will add the player to the current team."""
+      None
+   #end Trade_Player
 
 #end Obscure_Reference_Main
 

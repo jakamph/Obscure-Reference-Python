@@ -10,12 +10,14 @@
 
 from GUI import Frame
 from GUI import Grid
+from GUI import Label
 
 import obscure_reference.reference_objects.player
 
 class Player_Frame( Frame ):
    def __init__( self,
-                 player_list ):
+                 player_list,
+                 player_keys ):
       """This method is the constructor for the object."""
       
       #call the parent constructor
@@ -24,8 +26,16 @@ class Player_Frame( Frame ):
       player_rows = []
       # The first row of the display will be the column headings for a player
       # TODO: This should probably be done differently
-      player_rows.append(player_list.values()[1].keys())
       
+      label_row = []
+      
+      #create labels for the header information
+      for key in player_keys:
+         label_row.append( Label( key ) )
+      #end loop through player keys
+
+      player_rows.append( label_row )
+
       # Iterate through the list of players getting their data
       for player in player_list.values():
          current_row = [] # Just a list of Labels, not a Row

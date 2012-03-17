@@ -57,6 +57,7 @@ class Obscure_Main_Gui( Window ):
       self._main_frame = Frame( width = self._main_width,
                                 height = self.height )
       
+      
       #create the initial sub frame
       self._sub_frame = \
          Frame( width = (self._main_width - number_constants.basic_pad),
@@ -145,8 +146,19 @@ class Obscure_Main_Gui( Window ):
       """This method is used to receive a new frame to be displayed in the
       main frame area."""
       
+      #remove the previous frame
+      self._main_frame.remove( self._sub_frame )
+            
       #put the new frame in the main frame area
       self._main_frame.place( new_frame )
+      
+      #save the new frame as the current frame
+      self._sub_frame = new_frame
+      
+      #we have to hid and re-show in order to cause the Window to redraw with
+      #the new information
+      self.hide()
+      self.show()
       
    #end Receive_New_Frame
 
