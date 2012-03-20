@@ -7,6 +7,7 @@
 # Date: February 16, 2012
 #
 
+import obscure_reference.common.number_constants as number_constants
 import obscure_reference.common.string_definitions as string_definitions
 import obscure_reference.database.database_interaction as database_interaction
 
@@ -212,5 +213,28 @@ class Database_Parser( database_interaction.Database_Interaction ):
       return self.Get_Table( team_name )
 
    #end Get_Team_Table
+
+   def Get_Current_Year( self,
+                         session_table ):
+      """This method will pull the current season year from the provided
+      session table."""
+      
+      #default the year to something invalid
+      year = number_constants.invalid_year
+      
+      #get the feed from the table
+      session_feed = self.Get_Feed( session_table )
+      
+      #make sure we have a valid session feed
+      if None <> session_feed:
+         
+         #pull out the current year
+         year = \
+            session_feed.entry[0].custom[string_definitions.season_year_field]
+      
+      #end if valid session feed
+      
+      return year
+   #end Get_Current_Year
 
 #end class Database_Parser

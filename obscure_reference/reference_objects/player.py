@@ -8,8 +8,11 @@
 
 import obscure_reference.reference_objects.reference_object as reference_object
 import obscure_reference.common.string_definitions as string_definitions
+import obscure_reference.common.number_constants as number_constants
 
 import obscure_reference.gui.player_button as player_button
+
+import obscure_reference.application.main_application as main_application
 
 from GUI import Label
 
@@ -20,14 +23,11 @@ class Player( reference_object.Reference_Object ):
                  receiver,
                  add_player_function,
                  drop_player_function,
-                 trade_player_function,
-                 current_team ):
+                 trade_player_function ):
       """This is the constructor for the Player object."""
 
       #pull the data out and store it locally
       self._raw_data = raw_data
-      
-      self._current_team = current_team
       
       #get the name
       self._name = raw_data.custom[string_definitions.player_name_field].text
@@ -64,6 +64,12 @@ class Player( reference_object.Reference_Object ):
 
       #save the receiver
       self._receiver = receiver
+      
+      #use the receiver to pull out the current year
+      self._current_year = self._receiver.Get_Current_Year( )
+
+      #use the receiver to pull out the current team 
+      self._current_team = self._receiver.Get_Current_Team( )
 
       #save the functions
       self._add_player_function = add_player_function
@@ -143,5 +149,22 @@ class Player( reference_object.Reference_Object ):
       return gui_object
 
    #end Fill_Data
+
+   def Get_Salary( self,
+                   year ):
+      """This method will retrieve the salary of the player based on the
+      provided year."""
+
+      # default to an invalid salary
+      salary = number_constants.invalid_salary
+
+      #check if the provided year is part of the list
+      if str( year ) in self._salary_table:
+         salary = self._salary_table[str(year)]
+      #end if the key exists in the salary table
+   
+      return salary
+
+   #end Get_Salary
 
 #end class Player

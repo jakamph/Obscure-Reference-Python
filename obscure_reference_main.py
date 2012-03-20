@@ -63,6 +63,38 @@ class Obscure_Reference_Main( main_application.Main_Application ):
 
    #end __init__
 
+   def _Determine_Session_Information( self ):
+      """This method will retrieve the information from the database that's
+      pertinent to the session that is currently running."""
+      
+      #Get the table the contains the information
+      self._session_table = \
+         self._parser.Get_Table(string_definitions.session_table_name)
+      
+      #pull out the year field
+      self._current_year = \
+         self._parser.Get_Current_Year( self._session_table )
+
+
+      # TODO: Load the team information and determine what the name of 
+      # the team for this player is.
+      self._current_team = "myteam"
+      
+   #end _Determine_Session_Information
+
+   def Get_Current_Year( self ):
+      """This method will return the current season year."""
+
+      return self._current_year
+
+   #end Get_Current_Year
+
+   def Get_Current_Team( self ):
+      """This method will retrieve the team associated with the currently-
+      logged in manager."""
+      
+      return self._current_team
+
    def _Perform_Login( self ):
       """This method will attempt to log in to Google database."""
 
@@ -130,8 +162,7 @@ class Obscure_Reference_Main( main_application.Main_Application ):
                               receiver = self,
                               add_player_function = "Add_Player",
                               drop_player_function = "Drop_Player",
-                              trade_player_function = "Trade_Player",
-                              current_team = self._current_team )
+                              trade_player_function = "Trade_Player" )
          #end loop through players
       #end if valid parser
 
@@ -155,8 +186,8 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       #if we have a successful login, create the main GUI
       if self._parser <> None:
 
-         #open the Main Window
-         None
+         #figure out the important bits about our current session
+         self._Determine_Session_Information( )
 
       #end if valid parser
       else:
@@ -180,11 +211,8 @@ class Obscure_Reference_Main( main_application.Main_Application ):
          self._main_gui.show( )
 
          #while we're here, let's grab the player data
-         #self.Load_Player_Data( )
+         self.Load_Player_Data( )
 
-         # TODO: Load the team information and determine what the name of 
-         # the team for this player is.
-         self._current_team = "myteam"
 
 
       #end if user didn't cancel out
@@ -195,7 +223,7 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       """This method will cause the list of players to be displayed."""
       
       #get the latest player list
-      self.Load_Player_Data( )
+      #self.Load_Player_Data( )
       
       #create the player frame
       self._player_frame = \

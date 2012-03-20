@@ -27,6 +27,10 @@ full_name = "fullname"
 team_name = "teamname"
 
 
+#session table definitions
+session_table_name = "session"
+season_year_field = "seasonyear"
+
 default_database_name = "Obscure Reference Database"
 
 

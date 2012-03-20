@@ -36,6 +36,17 @@ class Main_Application( Application ):
       None
    #end Show_Transactions
 
+   def Get_Current_Year(self):
+      """This method will return the current year for any caller. It will
+      be overridden by the child class."""
+      None
+   #end Get_Current_Year
+   
+   def Get_Current_Team(self):
+      """This method will return the current team for any caller. It will
+      be overridden by the child class."""
+      None
+
    def Exit( self ):
       """This method will be used when it's time to close the application."""
       #call the parent quit command
