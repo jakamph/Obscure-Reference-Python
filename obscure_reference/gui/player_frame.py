@@ -40,9 +40,19 @@ class Player_Frame( ScrollableView ):
 
       player_rows.append( label_row )
 
+      #get the list of player names
+      player_names = player_list.keys( )
+
+      #put the list in alphabetical order
+      player_names.sort( )
+
       # Iterate through the list of players getting their data
-      for player in player_list.values():
+      #for player in player_list.values():
+      for name in player_names:
          current_row = [] # Just a list of Labels, not a Row
+         
+         player = player_list[name]
+
          current_row = player.Fill_Data( current_row )
          player_rows.append( current_row )
       #end for
