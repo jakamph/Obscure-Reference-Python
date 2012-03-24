@@ -32,8 +32,8 @@ class Player( reference_object.Reference_Object ):
       #get the name
       self._name = raw_data.custom[string_definitions.player_name_field].text
       
-      #get the team
-      self._team = raw_data.custom[string_definitions.player_team].text
+      #get the manager that is the controller of the team of this player
+      self._manager = raw_data.custom[string_definitions.player_manager].text
       
       #get the draft year for this player
       self._draft_year = \
@@ -68,8 +68,8 @@ class Player( reference_object.Reference_Object ):
       #use the receiver to pull out the current year
       self._current_year = self._receiver.Get_Current_Year( )
 
-      #use the receiver to pull out the current team 
-      self._current_team = self._receiver.Get_Current_Team( )
+      #use the receiver to pull out the current manager 
+      self._current_manager = self._receiver.Get_Current_Manager( )
 
       #save the functions
       self._add_player_function = add_player_function
@@ -94,7 +94,7 @@ class Player( reference_object.Reference_Object ):
       width = 20
 
       #determine if this player is part of the current user's team
-      if self._team == None:
+      if self._manager == None:
          #this player is not on a team, so provide an add button
          button = \
             player_button.Player_Button( \
@@ -105,7 +105,7 @@ class Player( reference_object.Reference_Object ):
                width = width )
 
       #end not on a team
-      elif self._team == self._current_team:
+      elif self._manager == self._current_manager.Get_Username():
          #this player is on the current team, so provide a drop
          button = player_button.Player_Button( \
                      title = "Drop Player",

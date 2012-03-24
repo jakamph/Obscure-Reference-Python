@@ -33,6 +33,7 @@ import obscure_reference.gui.credentials_dialog as credentials_dialog
 import obscure_reference.database.database_parser as database_parser
 import obscure_reference.common.string_definitions as string_definitions
 import obscure_reference.reference_objects.player as player
+import obscure_reference.reference_objects.manager as manager
 import obscure_reference.gui.obscure_main_gui as obscure_main_gui
 import obscure_reference.gui.player_frame as player_frame
 
@@ -61,7 +62,42 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       #default the list of players
       self._player_list = {}
 
+      #default the manager
+      self._current_manager = None
+
    #end __init__
+
+   def _Determine_Team_Information( self ):
+      """This method will retrieve the information from the database that's
+      pertinent to the individual team that's running."""
+      
+      #retrieve the manager table
+      self._manager_table = \
+         self._parser.Get_Table(string_definitions.managers_table_name)
+         
+      #retrieve the teams feed
+      self._manager_feed = \
+         self._parser.Get_Feed(self._manager_table)
+      
+      self._manager_list = {}
+      
+      #create manager objects based on the information in the table
+      for raw_manager in self._manager_feed.entry:
+      
+         #create the object
+         current_manager = manager.Manager( raw_manager )
+      
+         #save the manager in the manager list based on the username
+         self._manager_list[current_manager.Get_Username( )] = current_manager
+
+         #check for a match with the provided username
+         if self._username == current_manager.Get_Username():
+            self._current_manager = current_manager
+         #end if we have a match with the login username
+      
+      #end loop through manager
+      
+   #end _Determine_Team_Information
 
    def _Determine_Session_Information( self ):
       """This method will retrieve the information from the database that's
@@ -69,16 +105,11 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       
       #Get the table the contains the information
       self._session_table = \
-         self._parser.Get_Table(string_definitions.session_table_name)
+         self._parser.Get_Table( string_definitions.session_table_name )
       
       #pull out the year field
       self._current_year = \
          self._parser.Get_Current_Year( self._session_table )
-
-
-      # TODO: Load the team information and determine what the name of 
-      # the team for this player is.
-      self._current_team = "myteam"
       
    #end _Determine_Session_Information
 
@@ -94,6 +125,14 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       logged in manager."""
       
       return self._current_team
+
+   #end Get_Current_Team
+
+   def Get_Current_Manager( self ):
+      """This method will retrieve the manager associated with the currently-
+      logged-in user."""
+      return self._current_manager
+   #end Get_Current_Manager
 
    def _Perform_Login( self ):
       """This method will attempt to log in to Google database."""
@@ -121,9 +160,22 @@ class Obscure_Reference_Main( main_application.Main_Application ):
 
       #end loop until successful login/user canceled
 
+      if self._parser <> None:
+         #save the username 
+         self._username = _credentials.Get_User( )
+
+         if self._username.count("@") > 0:
+         
+            char_index = self._username.index( "@" ) 
+         
+            #the user name needs to be everything before the at
+            self._username = self._username[0:char_index]
+         
+         #end if we have the at symbol
+      
+      #end if valid login
+
    #end _Perform_Login
-
-
 
    def Load_Player_Data( self ):
       """This method will load the latest player data to be used."""
@@ -186,6 +238,9 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       #if we have a successful login, create the main GUI
       if self._parser <> None:
 
+         #determine the team information
+         self._Determine_Team_Information( )
+
          #figure out the important bits about our current session
          self._Determine_Session_Information( )
 
@@ -212,8 +267,6 @@ class Obscure_Reference_Main( main_application.Main_Application ):
 
          #while we're here, let's grab the player data
          self.Load_Player_Data( )
-
-
 
       #end if user didn't cancel out
 

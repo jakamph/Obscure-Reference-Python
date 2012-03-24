@@ -11,6 +11,7 @@ player_table_name = "players"
 player_name_field = "name"
 player_draft_year = "draftyear"
 player_team = "team"
+player_manager = "manager"
 salary_field_prefix = "salary"
 
 player_row_reference = "row_reference"
@@ -19,7 +20,7 @@ player_index = "index"
 added_player_data = [player_index, player_row_reference]
 
 #manager table definitions
-managers_table_name = "managers"
+managers_table_name = "managerlist"
 manager_login_name = "manager"
 manager_name = "fullname"
 team_tab = "tabkey"
@@ -31,7 +32,7 @@ team_name = "teamname"
 session_table_name = "session"
 season_year_field = "seasonyear"
 
-default_database_name = "Obscure Reference Database"
+default_database_name = "Obscure Reference Database Test"
 
 
 #end string_definitions
