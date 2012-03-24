@@ -30,6 +30,8 @@ class Obscure_Main_Gui( Window ):
                  **kwds ):
       """This method is the constructor for the class."""
       
+      #self._win_has_menubar = False
+      
       #call the parent constructor
       Window.__init__( self, size = ( 600, 400 ) )
 
@@ -42,11 +44,11 @@ class Obscure_Main_Gui( Window ):
       #save the controller
       self._controller = controller
 
-      #the navigation frame will take up the left third of the screen
-      self._nav_width = self.width / 3
+      #the navigation frame will take up the left quarter of the screen
+      self._nav_width = self.width / 4
       
-      #the main frame will take up the right 2/3's of the screen
-      self._main_width = self.width * 2 / 3
+      #the main frame will take up the right remainder of the screen
+      self._main_width = self.width - self._nav_width
 
       #create the bold font
       self._bold_font = Font( style = ["bold"] )
@@ -54,8 +56,9 @@ class Obscure_Main_Gui( Window ):
       self._Create_Navigation_Frame( )
 
       #create the main frame
-      self._main_frame = Frame( width = self._main_width,
-                                height = self.height )
+      self._main_frame = \
+         Frame( width = self._main_width,
+                height = self.height )#- number_constants.menu_bar_height )
       
       
       #create the initial sub frame
@@ -113,7 +116,7 @@ class Obscure_Main_Gui( Window ):
                                      action = "Go_To_My_Team",
                                      width = self._button_width )
 
-      self._league_button = Button( title = "Obscure Reference League",
+      self._league_button = Button( title = "League",
                                     action = "Go_To_League",
                                      width = self._button_width )
 
