@@ -33,7 +33,7 @@ class Player( reference_object.Reference_Object ):
       self._name = raw_data.custom[string_definitions.player_name_field].text
       
       #get the team
-      self._team = raw_data.custom[string_definitions.player_team].text
+      self._team = raw_data.custom[string_definitions.player_manager].text
       
       #get the draft year for this player
       self._draft_year = \

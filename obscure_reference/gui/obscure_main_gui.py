@@ -80,7 +80,10 @@ class Obscure_Main_Gui( Window ):
          top = 0)
       self._main_frame.place( self._sub_frame )
 
-      self.place( self._main_frame, left = self._nav_frame.right, top = 20 )
+      self.place( self._main_frame,
+                  left = self._nav_frame.right,
+                  top = 20,
+                  sticky = "nsew" )
 
       #draw the image in to the view
       #self._logo_image.draw( \
@@ -150,30 +153,33 @@ class Obscure_Main_Gui( Window ):
       self._main_frame.remove( self._sub_frame )
             
       #put the new frame in the main frame area
-      self._main_frame.place( new_frame )
+      self._main_frame.place( new_frame,
+                              sticky = "nsew", #Stick to all sides of the frame
+                              left = 0,
+                              top = 0 )
       
       #save the new frame as the current frame
       self._sub_frame = new_frame
       
-      #we have to hid and re-show in order to cause the Window to redraw with
+      #we have to hide and re-show in order to cause the Window to redraw with
       #the new information
       self.hide()
       self.show()
       
    #end Receive_New_Frame
 
-   def resized( self,
-                delta ):
-      """This method is automatically called when the window is resized."""
-
-      None
-
-      #change the size of the nav frame
-      #self._nav_frame.resize
-      
-      #change the size of the main frame
-
-   #end resized
+#   def resized( self,
+#                delta ):
+#      """This method is automatically called when the window is resized."""
+#
+#      None
+#
+#      #change the size of the nav frame
+#      #self._nav_frame.resize
+#      
+#      #change the size of the main frame
+#
+#   #end resized
 
    def Go_To_My_Team( self ):
       """This method will tell the parent that the user wants their team to
@@ -223,5 +229,4 @@ class Obscure_Main_Gui( Window ):
       """This method will retrieve the height of this window."""
       return self.height
    #end Get_Height
-
 #end class Obscure_Main_Gui
