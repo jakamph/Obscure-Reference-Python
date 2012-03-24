@@ -281,7 +281,14 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       #create the player frame
       self._player_frame = \
          player_frame.Player_Frame( player_list = self._player_list,
-                                    player_keys = self._player_keys )
+                                    player_keys = self._player_keys,
+                                    container = self._main_gui._main_frame,
+                                    anchor = "ltrb",
+                                    scrolling = "hv",
+                                    # TODO: Why does setting the size here stop
+                                    # this from scrolling?
+                                    size = (self._main_gui._main_frame.width - 40, #TODO: Magic numbers need tweaked and defined
+                                    self._main_gui._main_frame.height - 40))
       
       #give the new frame to the main GUI
       self._main_gui.Receive_New_Frame( self._player_frame )

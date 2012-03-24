@@ -32,8 +32,13 @@ class Player( reference_object.Reference_Object ):
       #get the name
       self._name = raw_data.custom[string_definitions.player_name_field].text
       
+<<<<<<< HEAD
       #get the manager that is the controller of the team of this player
       self._manager = raw_data.custom[string_definitions.player_manager].text
+=======
+      #get the team
+      self._team = raw_data.custom[string_definitions.player_manager].text
+>>>>>>> origin/master
       
       #get the draft year for this player
       self._draft_year = \
