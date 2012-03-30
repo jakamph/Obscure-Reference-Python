@@ -220,14 +220,6 @@ class Obscure_Reference_Main( main_application.Main_Application ):
 
    #end Load_Player_Data
 
-   def Get_Player_Frame( self ):
-      """This method will retrieve the player list frame."""
-      
-      player_frame = Frame( )
-      
-      return player_frame
-   #end Get_Player_Frame
-
    #this method doesn't conform to naming standard because it is 
    #automatically called by the GUI framework
    #def open_app( self ):
@@ -275,14 +267,37 @@ class Obscure_Reference_Main( main_application.Main_Application ):
 
    def Show_Players( self ):
       """This method will cause the list of players to be displayed."""
+
+      #the staticly-defined
+      self._player_header_keys = ["Action", "Name", "Manager" ]
       
-      #get the latest player list
-      #self.Load_Player_Data( )
+      year_list = []
+      
+      #loop through the keys looking for salary information
+      for key in self._player_keys:
+         
+         #if we've found a salary
+         if key.count( string_definitions.salary_field_prefix ):
+
+            #add this year to the year list
+            year_list.append( \
+               key.replace( string_definitions.salary_field_prefix, 
+                            "" ) )
+
+         #end if we've found a salary
+
+      #end loop through keys
+
+      #put the year list in inverse order
+      year_list.sort( reverse=True )
+
+      #add the year list to the header keys
+      self._player_header_keys += year_list 
       
       #create the player frame
       self._player_frame = \
          player_frame.Player_Frame( player_list = self._player_list,
-                                    player_keys = self._player_keys,
+                                    player_keys = self._player_header_keys,
                                     container = self._main_gui._main_frame,
                                     anchor = "ltrb",
                                     scrolling = "h",
@@ -310,7 +325,7 @@ class Obscure_Reference_Main( main_application.Main_Application ):
    def Add_Player( self,
                    player ):
       """This function will add the player to the current team."""
-      None
+      print( "Add a player!" )
    #end Add_Player
 
    def Drop_Player( self,
