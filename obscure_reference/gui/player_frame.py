@@ -25,20 +25,19 @@ class Player_Frame( ScrollableView ):
       #call the parent constructor
       ScrollableView.__init__( self,
                                **kwds )
-      
-      player_rows = []
+      self._player_rows = []
       # The first row of the display will be the column headings for a player
       # TODO: This should probably be done differently
       
-      label_row = []
+      self._label_row = []
       
       #create labels for the header information
       for key in player_keys:
-         label_row.append( Label( key,
-                               font = Font( style = ["bold"] ) ) )
+         self._label_row.append( Label( key,
+                                 font = Font( style = ["bold"] ) ) )
       #end loop through player keys
 
-      player_rows.append( label_row )
+      self._player_rows.append( self._label_row )
 
       #get the list of player names
       player_names = player_list.keys( )
@@ -54,11 +53,11 @@ class Player_Frame( ScrollableView ):
          player = player_list[name]
 
          current_row = player.Fill_Data( current_row )
-         player_rows.append( current_row )
+         self._player_rows.append( current_row )
       #end for
       
       #The player list will be displayed in tabular format
-      self._players_grid = Grid( player_rows )
+      self._players_grid = Grid( self._player_rows )
                                      
       # Put the grid into the frame
       self.place( self._players_grid )

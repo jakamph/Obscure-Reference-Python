@@ -136,13 +136,23 @@ class Player( reference_object.Reference_Object ):
       to be displayed."""
 
       #Call to create the button
-      #self._button = self._Create_Button( gui_object )
       self._button = self._Create_Button()
+      
+      #add the button to the GUI
+      gui_object.append( self._button )
+      
+      #add my name 
       gui_object.append( Label( self._name ) )
+
+      #add the manager
+      gui_object.append( Label( self._manager ) )
+
+      #have the salary table be in inverse order (current to past)
+      self._salary_table.sort( reverse = True )
       
       #loop through the years and add the salary information
       for year in self._salary_table:
-         gui_object.append( Label( self._salary_table[year]))
+         gui_object.append( Label( self._salary_table[year] ) )
       #end loop through the years
 
       #give the row back to the caller

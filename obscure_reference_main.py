@@ -275,14 +275,37 @@ class Obscure_Reference_Main( main_application.Main_Application ):
 
    def Show_Players( self ):
       """This method will cause the list of players to be displayed."""
+
+      #the staticly-defined
+      self._player_header_keys = ["Action", "Name", "Manager" ]
       
-      #get the latest player list
-      #self.Load_Player_Data( )
+      year_list = []
+      
+      #loop through the keys looking for salary information
+      for key in self._player_keys:
+         
+         #if we've found a salary
+         if key.count( string_definitions.salary_field_prefix ):
+
+            #add this year to the year list
+            year_list.append( \
+               key.replace( string_definitions.salary_field_prefix, 
+                            "" ) )
+
+         #end if we've found a salary
+
+      #end loop through keys
+
+      #put the year list in inverse order
+      year_list.sort( reverse=True )
+
+      #add the year list to the header keys
+      self._player_header_keys.append( year_list )
       
       #create the player frame
       self._player_frame = \
          player_frame.Player_Frame( player_list = self._player_list,
-                                    player_keys = self._player_keys,
+                                    player_keys = self._player_header_keys,
                                     container = self._main_gui._main_frame,
                                     anchor = "ltrb",
                                     scrolling = "hv",
