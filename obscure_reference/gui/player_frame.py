@@ -34,7 +34,7 @@ class Player_Frame( ScrollableView ):
       #create labels for the header information
       for key in player_keys:
          self._label_row.append( Label( key,
-                                 font = Font( style = ["bold"] ) ) )
+                                        font = Font( style = ["bold"] ) ) )
       #end loop through player keys
 
       self._player_rows.append( self._label_row )

@@ -220,14 +220,6 @@ class Obscure_Reference_Main( main_application.Main_Application ):
 
    #end Load_Player_Data
 
-   def Get_Player_Frame( self ):
-      """This method will retrieve the player list frame."""
-      
-      player_frame = Frame( )
-      
-      return player_frame
-   #end Get_Player_Frame
-
    #this method doesn't conform to naming standard because it is 
    #automatically called by the GUI framework
    #def open_app( self ):
@@ -300,7 +292,7 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       year_list.sort( reverse=True )
 
       #add the year list to the header keys
-      self._player_header_keys.append( year_list )
+      self._player_header_keys += year_list 
       
       #create the player frame
       self._player_frame = \
@@ -333,7 +325,7 @@ class Obscure_Reference_Main( main_application.Main_Application ):
    def Add_Player( self,
                    player ):
       """This function will add the player to the current team."""
-      None
+      print( "Add a player!" )
    #end Add_Player
 
    def Drop_Player( self,

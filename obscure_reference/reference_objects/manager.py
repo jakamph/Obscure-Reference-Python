@@ -18,11 +18,8 @@ class Manager( reference_object.Reference_Object ):
       self._email_address = \
          raw_manager_data.custom[string_definitions.manager_login_name].text
 
-      char_index = self._email_address.index("@")
-
-      #pull out the username of the manager
       self._manager_username = \
-         self._email_address[0:char_index]
+         string_definitions.Extract_Username( self._email_address )
 
       self._manager_name = \
          raw_manager_data.custom[string_definitions.manager_name].text

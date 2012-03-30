@@ -35,6 +35,18 @@ class Player( reference_object.Reference_Object ):
       #get the manager that is the controller of the team of this player
       self._manager = raw_data.custom[string_definitions.player_manager].text
       
+      self._manager_string = self._manager
+      
+      #if the manager is empty
+      if None == self._manager_string:
+         self._manager_string = ""
+      #end if manager is empty
+      else:
+         self._manager_string = \
+            string_definitions.Extract_Username( self._manager )
+
+      #end if manager string is valid
+      
       #get the draft year for this player
       self._draft_year = \
          raw_data.custom[string_definitions.player_draft_year].text
@@ -91,10 +103,10 @@ class Player( reference_object.Reference_Object ):
 
       button = None
 
-      width = 20
+      width = 80
 
       #determine if this player is part of the current user's team
-      if self._manager == None:
+      if self._manager_string == None:
          #this player is not on a team, so provide an add button
          button = \
             player_button.Player_Button( \
@@ -105,7 +117,7 @@ class Player( reference_object.Reference_Object ):
                width = width )
 
       #end not on a team
-      elif self._manager == self._current_manager.Get_Username():
+      elif self._manager_string == self._current_manager.Get_Username():
          #this player is on the current team, so provide a drop
          button = player_button.Player_Button( \
                      title = "Drop Player",
@@ -145,13 +157,15 @@ class Player( reference_object.Reference_Object ):
       gui_object.append( Label( self._name ) )
 
       #add the manager
-      gui_object.append( Label( self._manager ) )
+      gui_object.append( Label( self._manager_string ) )
+
+      year_key_list = self._salary_table.keys( )
 
       #have the salary table be in inverse order (current to past)
-      self._salary_table.sort( reverse = True )
+      year_key_list.sort( reverse = True )
       
       #loop through the years and add the salary information
-      for year in self._salary_table:
+      for year in year_key_list:
          gui_object.append( Label( self._salary_table[year] ) )
       #end loop through the years
 
@@ -176,5 +190,12 @@ class Player( reference_object.Reference_Object ):
       return salary
 
    #end Get_Salary
+
+   def Get_Name( self ):
+      """This method will retrieve the name of the player."""
+      
+      return self._name
+   
+   #end Get_Name
 
 #end class Player

@@ -34,6 +34,23 @@ season_year_field = "seasonyear"
 
 default_database_name = "Obscure Reference Database Test"
 
+def Extract_Username( manager_email ):
+   """This method will return the username portion of the provided email
+   address."""
+
+   username = None
+   
+   #if we have a valid email string
+   if ( (None <> manager_email) and ("" <> manager_email) ):
+      
+      char_index = manager_email.index("@")
+
+      #pull out the username of the manager
+      username = manager_email[0:char_index]
+
+   #end if valid string passed in
+   
+   return username
 
 #end string_definitions
 
