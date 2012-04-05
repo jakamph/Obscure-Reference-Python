@@ -75,4 +75,10 @@ class Player_Frame( ScrollableView ):
       None
    #end _Display_Player_Row
 
+   #this method doesn't follow the naming standard because it is automatically
+   #called by the GUI framework
+   def draw( self, canvas, rect ):
+      """Cause the frame to re-draw the important area."""
+      canvas.erase_rect( rect )
+
 #end class Player_Frame
