@@ -307,9 +307,6 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       #give the new frame to the main GUI
       self._main_gui.Receive_New_Frame( self._player_frame )
 
-      #trying to do something about the scrolling
-      #self._player_frame.
-
    #end Show_Players
 
    def Show_Transactions( self ):

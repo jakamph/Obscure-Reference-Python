@@ -1,5 +1,5 @@
 ##
-# This module contains the definition of the team object.
+# This module contains the definition of the manager object.
 #
 # Author: Jason Kamphaugh
 #
@@ -28,6 +28,9 @@ class Manager( reference_object.Reference_Object ):
          raw_manager_data.custom[string_definitions.team_name].text
 
       self._raw_data = raw_manager_data
+      
+      #create the team for this manager
+      self._team = None
 
    #end __init__
 
@@ -60,5 +63,13 @@ class Manager( reference_object.Reference_Object ):
       return self._raw_data
    
    #end Get_Raw_Data
+
+   def Get_Team( self ):
+      """This method will retrieve the team object this manager is in charge
+      of."""
+      
+      return self._team
+
+   #end Get_Team
 
 #end class Manager

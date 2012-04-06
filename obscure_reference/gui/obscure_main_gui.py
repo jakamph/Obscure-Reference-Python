@@ -163,26 +163,13 @@ class Obscure_Main_Gui( Window ):
       
       #save the new frame as the current frame
       self._sub_frame = new_frame
-      
-      #we have to hide and re-show in order to cause the Window to redraw with
-      #the new information
-      self.hide()
-      self.show()
-      
+
    #end Receive_New_Frame
 
-#   def resized( self,
-#                delta ):
-#      """This method is automatically called when the window is resized."""
-#
-#      None
-#
-#      #change the size of the nav frame
-#      #self._nav_frame.resize
-#      
-#      #change the size of the main frame
-#
-#   #end resized
+   def draw( self, canvas, rect ):
+      """Cause the frame to re-draw the important area."""
+      canvas.erase_rect( rect )
+
 
    def Go_To_My_Team( self ):
       """This method will tell the parent that the user wants their team to
