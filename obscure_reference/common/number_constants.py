@@ -14,3 +14,9 @@ invalid_salary = -1
 
 # a number to represent an invalid year
 invalid_year = -1
+
+# the maximum number of players on a team
+max_roster_size = 16
+
+# the maximum salary on a team
+max_team_salary = 200

@@ -6,6 +6,8 @@
 # Date: April 5, 2012
 #
 
+import obscure_reference.common.number_constants as number_constants
+
 class Team:
    
    def __init__( self,
@@ -16,7 +18,14 @@ class Team:
       self._team_name = team_name
       self._manager = manager
       
+      #create an empty player list
       self._player_list = []
+      
+      #create a variable for keeping track of the number of players
+      self._player_count = 0
+      
+      #create a variable for storing the team's salary
+      self._salary
       
    #end __init__
    
@@ -24,8 +33,60 @@ class Team:
                    player ):
       """This method will add a player to the team."""
       
+      #add the player's salary to the team's salary
+      self._salary += player.Get_Salaray( )
+      
+      # this player only counts against the roster max if they're not on
+      # the disabled list
+      if not player.On_Disabled_List( ):
+      
+         self._player_count += 1
+      
+      #end if player is not on the disabled list
+      
+      #put the player in the team's list
       self._player_list.append( player )
+
    #end Add_Player
+   
+   def Drop_Player( self,
+                    player_name ):
+      """This method will drop the player from the team's list."""
+      
+      found_player = None
+      
+      for player in self._player_list:
+         
+         if player.Get_Name( ) == player_name:
+            
+            found_player = player
+            
+            #break out of the loop
+            break
+         
+         #end if match found
+      
+      #end loop through the player list
+      
+      #if we have a match
+      if None <> found_player:
+         
+         #if the player isn't on the disabled list
+         if not found_player.On_Disabled_List:
+            
+            self._player_count -= 1
+            
+         #end if player isn't on the disabeled list
+         
+         #reduce the team salary by the player's salary amount
+         self._salary -= found_player.Get_Salary( )
+
+         #remove the player from the list
+         self._player_list.remove( found_player )
+      
+      #end if match found
+      
+   #end Drop_Player
    
    def Get_Player_List( self ):
       """This method will retrieve the list of players on this team."""
@@ -45,4 +106,19 @@ class Team:
       return self._manager
    
    #end Get_Manager
+   
+   def Team_Is_Full( self ):
+      """This method will return the condition where this team has a full 
+      roster."""
+      
+      return (self._player_count == number_constants.max_roster_size)
+   
+   #end Team_Is_Full
+   
+   def Get_Team_Salary( self ):
+      """This method will retrieve the salary of this team."""
+      
+      return self._salary
+   
+   #end Get_Team_Salary
 #end Team

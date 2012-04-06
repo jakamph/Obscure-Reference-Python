@@ -83,6 +83,8 @@ class Player( reference_object.Reference_Object ):
       #use the receiver to pull out the current manager 
       self._current_manager = self._receiver.Get_Current_Manager( )
 
+      self._on_disabled_list = False #TODO add the information to the spreadsheet to determine if this player is on the DL
+
       #save the functions
       self._add_player_function = add_player_function
       self._drop_player_function = drop_player_function
@@ -175,12 +177,22 @@ class Player( reference_object.Reference_Object ):
    #end Fill_Data
 
    def Get_Salary( self,
-                   year ):
+                   year = None ):
       """This method will retrieve the salary of the player based on the
       provided year."""
 
       # default to an invalid salary
       salary = number_constants.invalid_salary
+
+      internal_year = year
+      
+      #if we weren't given a year
+      if None == internal_year:
+         
+         #use the current league year
+         internal_year = self._current_year
+      
+      #end if we weren't given a year
 
       #check if the provided year is part of the list
       if str( year ) in self._salary_table:
@@ -197,5 +209,12 @@ class Player( reference_object.Reference_Object ):
       return self._name
    
    #end Get_Name
+
+   def On_Disabled_List( self ):
+      """This method will retrieve the disabled list state of the palyer."""
+      
+      return self._on_disabled_list
+   
+   #end On_Disabled_List
 
 #end class Player
