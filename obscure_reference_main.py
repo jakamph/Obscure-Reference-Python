@@ -289,9 +289,8 @@ class Obscure_Reference_Main( main_application.Main_Application ):
                                     # TODO: Why does setting the size here stop
                                     # this from scrolling?
                                     size = (self._main_gui._main_frame.width - 40, #TODO: Magic numbers need tweaked and defined
-                                            self._main_gui._main_frame.height - 40),
-                                    extent = (5000, 5000))#TODO this should be something WRT the player list
-      
+                                            self._main_gui._main_frame.height - 40))
+
       #give the new frame to the main GUI
       self._main_gui.Receive_New_Frame( self._player_frame )
 
