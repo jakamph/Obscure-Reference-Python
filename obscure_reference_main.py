@@ -301,17 +301,9 @@ class Obscure_Reference_Main( main_application.Main_Application ):
                                     container = self._main_gui._main_frame,
                                     anchor = "ltrb",
                                     scrolling = "h",
-                                    # TODO: Why does setting the size here stop
-                                    # this from scrolling?
-<<<<<<< HEAD
                                     size = (self._main_gui._main_frame.width - 40, #TODO: Magic numbers need tweaked and defined
                                             self._main_gui._main_frame.height - 40))
 
-=======
-                                    width = self._main_gui._main_frame.width - 40, #TODO: Magic numbers need tweaked and defined
-                                    height = self._main_gui._main_frame.height - 40)
-      
->>>>>>> gui_test
       #give the new frame to the main GUI
       self._main_gui.Receive_New_Frame( self._player_frame )
 

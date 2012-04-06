@@ -80,10 +80,7 @@ class Player_Frame( ScrollableView ):
    def draw( self, canvas, rect ):
       """Cause the frame to re-draw the important area."""
       canvas.erase_rect( rect )
-<<<<<<< HEAD
+
    #end draw
    
-=======
-
->>>>>>> gui_test
 #end class Player_Frame
