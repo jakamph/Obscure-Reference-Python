@@ -25,7 +25,7 @@ class Team:
       self._player_count = 0
       
       #create a variable for storing the team's salary
-      self._salary
+      self._salary = 0
       
    #end __init__
    
@@ -34,7 +34,7 @@ class Team:
       """This method will add a player to the team."""
       
       #add the player's salary to the team's salary
-      self._salary += player.Get_Salaray( )
+      self._salary += player.Get_Salary( )
       
       # this player only counts against the roster max if they're not on
       # the disabled list

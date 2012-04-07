@@ -8,6 +8,8 @@
 
 import obscure_reference.common.string_definitions as string_definitions
 
+import obscure_reference.reference_objects.team as team
+
 import obscure_reference.reference_objects.reference_object as reference_object
 
 class Manager( reference_object.Reference_Object ):
@@ -31,6 +33,10 @@ class Manager( reference_object.Reference_Object ):
       
       #create the team for this manager
       self._team = None
+
+      #create the manager's team object
+      self._team = team.Team( self._team_name,
+                              self )
 
    #end __init__
 
@@ -71,5 +77,12 @@ class Manager( reference_object.Reference_Object ):
       return self._team
 
    #end Get_Team
+
+   def Add_Player( self,
+                   player ):
+      """This method will add the specified player to this manager's team."""
+      
+      #give this player to the team
+      self._team.Add_Player(player)
 
 #end class Manager

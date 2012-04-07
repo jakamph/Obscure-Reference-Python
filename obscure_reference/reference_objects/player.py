@@ -108,7 +108,7 @@ class Player( reference_object.Reference_Object ):
       width = 80
 
       #determine if this player is part of the current user's team
-      if self._manager_string == None:
+      if self._manager_string == None or self._manager_string == "":
          #this player is not on a team, so provide an add button
          button = \
             player_button.Player_Button( \
@@ -216,5 +216,13 @@ class Player( reference_object.Reference_Object ):
       return self._on_disabled_list
    
    #end On_Disabled_List
+
+   def Get_Manager_Name( self ):
+      """This method will retrieve the name of the team on which this 
+      player appears."""
+      
+      return self._manager_string
+
+   #end Get_Manager_Name
 
 #end class Player

@@ -208,13 +208,30 @@ class Obscure_Reference_Main( main_application.Main_Application ):
             player_name = \
                current_player.custom[string_definitions.player_name_field].text
 
-            #add the new player to our list
-            self._player_list[player_name] = \
+            this_player = \
                player.Player( raw_data = current_player,
                               receiver = self,
                               add_player_function = "Add_Player",
                               drop_player_function = "Drop_Player",
                               trade_player_function = "Trade_Player" )
+
+            #add the new player to our list
+            self._player_list[player_name] = this_player
+
+            #retrieve the manager name
+            manager_name = this_player.Get_Manager_Name()
+
+            #determine iff this player is on a team
+            if manager_name <> None and manager_name <> "":
+
+               #get the manager
+               current_manager = self._manager_list[manager_name]
+   
+               #add this player to the manager's team
+               current_manager.Add_Player( this_player )
+               
+            #end if player is on a team
+         
          #end loop through players
       #end if valid parser
 
