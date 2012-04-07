@@ -20,3 +20,5 @@ max_roster_size = 16
 
 # the maximum salary on a team
 max_team_salary = 200
+
+action_button_width = 80

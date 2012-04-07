@@ -105,7 +105,7 @@ class Player( reference_object.Reference_Object ):
 
       button = None
 
-      width = 80
+      width = number_constants.action_button_width
 
       #determine if this player is part of the current user's team
       if self._manager_string == None or self._manager_string == "":

@@ -19,7 +19,7 @@ class Team:
       self._manager = manager
       
       #create an empty player list
-      self._player_list = []
+      self._player_list = {}
       
       #create a variable for keeping track of the number of players
       self._player_count = 0
@@ -45,7 +45,7 @@ class Team:
       #end if player is not on the disabled list
       
       #put the player in the team's list
-      self._player_list.append( player )
+      self._player_list[player.Get_Name( )] = player
 
    #end Add_Player
    
@@ -82,8 +82,8 @@ class Team:
          self._salary -= found_player.Get_Salary( )
 
          #remove the player from the list
-         self._player_list.remove( found_player )
-      
+         self._player_list.pop( found_player )
+
       #end if match found
       
    #end Drop_Player

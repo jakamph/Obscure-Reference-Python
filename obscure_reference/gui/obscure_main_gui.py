@@ -144,7 +144,6 @@ class Obscure_Main_Gui( Window ):
 
       self.place( self._nav_frame, left = 20, top = 20 )
 
-
    #end _Create_Navigation_Frame
 
    def Receive_New_Frame( self,
@@ -169,12 +168,17 @@ class Obscure_Main_Gui( Window ):
    def draw( self, canvas, rect ):
       """Cause the frame to re-draw the important area."""
       canvas.erase_rect( rect )
-
+   #end draw
 
    def Go_To_My_Team( self ):
       """This method will tell the parent that the user wants their team to
       be displayed."""
-      None
+      
+      manager_name = self._controller.Get_Current_Manager_Name( )
+      
+      #display the team
+      self._controller.Show_Team( manager_name = manager_name ) 
+      
    #end Go_To_My_Team
 
    def Go_To_League( self ):

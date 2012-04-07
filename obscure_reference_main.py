@@ -36,6 +36,7 @@ import obscure_reference.reference_objects.player as player
 import obscure_reference.reference_objects.manager as manager
 import obscure_reference.gui.obscure_main_gui as obscure_main_gui
 import obscure_reference.gui.player_frame as player_frame
+import obscure_reference.gui.team_frame as team_frame
 
 #we need access to the BadAuthentication error
 import gdata.service
@@ -65,6 +66,8 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       #default the manager
       self._current_manager = None
 
+      self._manager_list = {}
+
    #end __init__
 
    def _Determine_Team_Information( self ):
@@ -78,8 +81,6 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       #retrieve the teams feed
       self._manager_feed = \
          self._parser.Get_Feed(self._manager_table)
-      
-      self._manager_list = {}
       
       #create manager objects based on the information in the table
       for raw_manager in self._manager_feed.entry:
@@ -201,6 +202,33 @@ class Obscure_Reference_Main( main_application.Main_Application ):
          #get the list of keys available for the player table
          self._player_keys = raw_player_list[0].custom.keys()
 
+         #the statically-defined
+         self._player_header_keys = ["Action", "Name", "Manager" ]
+         
+         year_list = []
+         
+         #loop through the keys looking for salary information
+         for key in self._player_keys:
+            
+            #if we've found a salary
+            if key.count( string_definitions.salary_field_prefix ):
+   
+               #add this year to the year list
+               year_list.append( \
+                  key.replace( string_definitions.salary_field_prefix, 
+                               "" ) )
+   
+            #end if we've found a salary
+   
+         #end loop through keys
+   
+         #put the year list in inverse order
+         year_list.sort( reverse=True )
+   
+         #add the year list to the header keys
+         self._player_header_keys += year_list 
+
+
          #loop through the player list creating the objects
          for current_player in raw_player_list:
             
@@ -285,31 +313,6 @@ class Obscure_Reference_Main( main_application.Main_Application ):
    def Show_Players( self ):
       """This method will cause the list of players to be displayed."""
 
-      #the staticly-defined
-      self._player_header_keys = ["Action", "Name", "Manager" ]
-      
-      year_list = []
-      
-      #loop through the keys looking for salary information
-      for key in self._player_keys:
-         
-         #if we've found a salary
-         if key.count( string_definitions.salary_field_prefix ):
-
-            #add this year to the year list
-            year_list.append( \
-               key.replace( string_definitions.salary_field_prefix, 
-                            "" ) )
-
-         #end if we've found a salary
-
-      #end loop through keys
-
-      #put the year list in inverse order
-      year_list.sort( reverse=True )
-
-      #add the year list to the header keys
-      self._player_header_keys += year_list 
       
       #create the player frame
       self._player_frame = \
@@ -374,6 +377,30 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       """This function will add the player to the current team."""
       None
    #end Trade_Player
+
+   def Get_Current_Manager_Name( self ):
+      """This method will retrieve the name of this instance's manager."""
+      
+      return self._current_manager.Get_Username( )
+   
+   #end Get_Current_Manager_Name
+
+   def Show_Team( self,
+                  manager_name ):
+      """This method will show the team based on the name of the team's 
+      manager."""
+
+      display_manager = self._manager_list[manager_name]
+      
+      self._team_frame = \
+         team_frame.Team_Frame( display_team = display_manager.Get_Team(),
+                                player_keys = self._player_header_keys,
+                                container = self._main_gui._main_frame,
+                                anchor = "ltrb",
+                                size = (self._main_gui._main_frame.width - 40, #TODO: Magic numbers need tweaked and defined
+                                        self._main_gui._main_frame.height - 40)) 
+      self._main_gui.Receive_New_Frame(self._team_frame)
+   #end Show_Team
 
 #end Obscure_Reference_Main
 
