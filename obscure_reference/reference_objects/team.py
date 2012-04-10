@@ -93,6 +93,14 @@ class Team:
       return self._player_list
    #end Get_Player_list
    
+   def Get_Player_Count( self ):
+      """This method will retrieve the number of players currently counted as
+      on the roster."""
+      
+      return self._player_count
+   
+   #end Get_Player_Count
+   
    def Get_Team_Name( self ):
       """This method will retrieve the name of this team."""
       
