@@ -70,6 +70,11 @@ class Player( reference_object.Reference_Object ):
             #save the salary information in to the table
             self._salary_table[new_key] = raw_data.custom[key].text
 
+            #if it's a zero salary
+            if "0" == self._salary_table[new_key]:
+               self._salary_table[new_key] = "1"
+            #end if it's a zero salary
+
          #end if we've found a salary
 
       #end loop through keys
@@ -160,6 +165,9 @@ class Player( reference_object.Reference_Object ):
 
       #add the manager
       gui_object.append( Label( self._manager_string ) )
+      
+      #fill the current salary
+      gui_object.append( Label( str( self.Get_Current_Salary( ) ) ) )
 
       year_key_list = self._salary_table.keys( )
 
@@ -168,7 +176,7 @@ class Player( reference_object.Reference_Object ):
       
       #loop through the years and add the salary information
       for year in year_key_list:
-         gui_object.append( Label( self._salary_table[year] ) )
+         gui_object.append( Label( str( self._salary_table[year] ) ) )
       #end loop through the years
 
       #give the row back to the caller
@@ -195,13 +203,34 @@ class Player( reference_object.Reference_Object ):
       #end if we weren't given a year
 
       #check if the provided year is part of the list
-      if str( year ) in self._salary_table:
-         salary = self._salary_table[str(year)]
+      if str( internal_year ) in self._salary_table:
+         salary = int(self._salary_table[str(internal_year)])
       #end if the key exists in the salary table
    
       return salary
 
    #end Get_Salary
+
+   def Get_Current_Salary( self ):
+      """This method will retrieve the player's salary for the given league
+      season."""
+
+      #retrieve the salary for the draft year
+      salary = int( self.Get_Salary( self._draft_year ))
+      
+      #number of years between the draft year and current year
+      contract_years = 0
+      
+      if None <> self._draft_year:
+         contract_years = \
+            int( self._receiver.Get_Current_Year( ) ) - int( self._draft_year )
+      
+      #do the math
+      salary = salary + (contract_years * number_constants.raise_per_year)
+
+      return salary
+
+   # end Get_Current_Salary
 
    def Get_Name( self ):
       """This method will retrieve the name of the player."""

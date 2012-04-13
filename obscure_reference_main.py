@@ -203,8 +203,11 @@ class Obscure_Reference_Main( main_application.Main_Application ):
          self._player_keys = raw_player_list[0].custom.keys()
 
          #the statically-defined
-         self._player_header_keys = ["Action", "Name", "Manager" ]
-         
+         self._player_header_keys = ["Action", 
+                                     "Name", 
+                                     "Manager", 
+                                     "Cap Hit" ]
+
          year_list = []
          
          #loop through the keys looking for salary information

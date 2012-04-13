@@ -228,9 +228,10 @@ class Database_Parser( database_interaction.Database_Interaction ):
       #make sure we have a valid session feed
       if None <> session_feed:
          
+         custom = session_feed.entry[0].custom 
+         
          #pull out the current year
-         year = \
-            session_feed.entry[0].custom[string_definitions.season_year_field]
+         year = custom[string_definitions.season_year_field].text
       
       #end if valid session feed
       

@@ -163,8 +163,8 @@ class Obscure_Main_Gui( Window ):
       #save the new frame as the current frame
       self._sub_frame = new_frame
 
-      # TODO call the invalidate rectangle routine to cause the 
-      # main frame area to be redrawn.
+      # cause the main frame area to be redrawn.
+      self._main_frame.invalidate()
 
    #end Receive_New_Frame
 

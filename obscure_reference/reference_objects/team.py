@@ -34,7 +34,7 @@ class Team:
       """This method will add a player to the team."""
       
       #add the player's salary to the team's salary
-      self._salary += player.Get_Salary( )
+      self._salary += player.Get_Current_Salary( )
       
       # this player only counts against the roster max if they're not on
       # the disabled list

@@ -21,4 +21,8 @@ max_roster_size = 16
 # the maximum salary on a team
 max_team_salary = 200
 
+# the bump of salary per year
+raise_per_year = 5
+
+# the width of the action buttons
 action_button_width = 80
