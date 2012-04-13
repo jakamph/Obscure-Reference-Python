@@ -323,7 +323,7 @@ class Obscure_Reference_Main( main_application.Main_Application ):
                                     player_keys = self._player_header_keys,
                                     container = self._main_gui._main_frame,
                                     anchor = "ltrb",
-                                    scrolling = "h",
+                                    scrolling = "",
                                     size = (self._main_gui._main_frame.width - 40, #TODO: Magic numbers need tweaked and defined
                                             self._main_gui._main_frame.height - 40))
 
