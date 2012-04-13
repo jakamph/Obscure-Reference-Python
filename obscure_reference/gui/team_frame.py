@@ -6,6 +6,7 @@
 
 from GUI import Frame
 from GUI import Label
+from GUI import ListButton
 
 import obscure_reference.reference_objects.team as team
 import obscure_reference.gui.player_frame as player_frame

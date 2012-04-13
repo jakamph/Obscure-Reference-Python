@@ -395,6 +395,9 @@ class Obscure_Reference_Main( main_application.Main_Application ):
 
       display_manager = self._manager_list[manager_name]
       
+      # TODO: Add in a ListButton that allows navigation between the different
+      # teams
+      
       self._team_frame = \
          team_frame.Team_Frame( display_team = display_manager.Get_Team(),
                                 player_keys = self._player_header_keys,
