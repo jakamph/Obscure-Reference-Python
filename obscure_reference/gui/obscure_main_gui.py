@@ -226,4 +226,16 @@ class Obscure_Main_Gui( Window ):
       """This method will retrieve the height of this window."""
       return self.height
    #end Get_Height
+   
+   def Get_Main_Frame_Width( self ):
+      return self._main_frame.width
+   #end Get_Main_Frame_Width
+
+   def Get_Main_Frame_Height( self ):
+      return self._main_frame.height
+   #end Get_Main_Frame_Width
+   
+   def Get_Main_Frame( self ):
+      return self._main_frame
+   #end Get_Main_Frame
 #end class Obscure_Main_Gui

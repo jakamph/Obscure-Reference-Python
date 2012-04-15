@@ -32,11 +32,13 @@ for suffix in _path_suffixes:
 import obscure_reference.gui.credentials_dialog as credentials_dialog
 import obscure_reference.database.database_parser as database_parser
 import obscure_reference.common.string_definitions as string_definitions
+import obscure_reference.common.number_constants as number_constants
 import obscure_reference.reference_objects.player as player
 import obscure_reference.reference_objects.manager as manager
 import obscure_reference.gui.obscure_main_gui as obscure_main_gui
 import obscure_reference.gui.player_frame as player_frame
 import obscure_reference.gui.team_frame as team_frame
+import obscure_reference.gui.team_dropdown as team_dropdown
 
 #we need access to the BadAuthentication error
 import gdata.service
@@ -67,6 +69,10 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       self._current_manager = None
 
       self._manager_list = {}
+
+      self._overall_team_frame = None
+      
+      self._dropdown_string_table = []
 
    #end __init__
 
@@ -388,24 +394,69 @@ class Obscure_Reference_Main( main_application.Main_Application ):
    
    #end Get_Current_Manager_Name
 
+   def _Create_Overall_Team_Frame( self ):
+      """This method will create the frame that contains the team frame."""
+      
+      #create the frame 
+      self._overall_team_frame = \
+         Frame( container = self._main_gui.Get_Main_Frame( ),
+                anchor = "ltrb",
+                size = ((self._main_gui.Get_Main_Frame_Width() - \
+                         number_constants.basic_pad),
+                        (self._main_gui.Get_Main_Frame_Height() - \
+                         number_constants.basic_pad)))
+
+
+
+      #create the drop-down
+      self._team_dropdown = \
+         team_dropdown.Team_Dropdown( manager_list = self._manager_list,
+                                      receiver = self,
+                                      receiver_function = "Show_Team",
+                                      position = ( 0, 0 ),
+                                      width = self._overall_team_frame.width )
+      
+      #add the drop down to the overall frame
+      self._overall_team_frame.add( self._team_dropdown )
+      
+   #end _Create_Overall_Team_Frame
+
    def Show_Team( self,
                   manager_name ):
       """This method will show the team based on the name of the team's 
       manager."""
 
+      if None == self._overall_team_frame:
+         self._Create_Overall_Team_Frame( )
+      #end if team frame didn't exist before
+      else:
+         #remove the existing team frame from the overall team frame
+         self._overall_team_frame.remove( self._team_frame )
+      #end if the team frame did exist before
+
       display_manager = self._manager_list[manager_name]
-      
-      # TODO: Add in a ListButton that allows navigation between the different
-      # teams
-      
+
+      #create this team's frame      
       self._team_frame = \
          team_frame.Team_Frame( display_team = display_manager.Get_Team(),
                                 player_keys = self._player_header_keys,
-                                container = self._main_gui._main_frame,
+                                container = self._overall_team_frame,
                                 anchor = "ltrb",
-                                size = (self._main_gui._main_frame.width - 40, #TODO: Magic numbers need tweaked and defined
-                                        self._main_gui._main_frame.height - 40)) 
-      self._main_gui.Receive_New_Frame(self._team_frame)
+                                size = (self._overall_team_frame.width,
+                                        (self._overall_team_frame.height - \
+                                         self._team_dropdown.height - \
+                                         number_constants.basic_pad) ) ) 
+
+      #add the team frame to the overall team frame
+      self._overall_team_frame.place( self._team_frame,
+                                      sticky = "nsew", 
+                                      left = 0,
+                                      top = (self._team_dropdown.height + \
+                                             number_constants.basic_pad) )
+
+      #give the new frame to the main GUI
+      self._main_gui.Receive_New_Frame(self._overall_team_frame)
+
    #end Show_Team
 
 #end Obscure_Reference_Main
