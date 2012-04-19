@@ -48,6 +48,8 @@ import obscure_reference.application.main_application as main_application
 from GUI import Frame
 from GUI import ModalDialog
 from GUI import Label 
+from GUI import Button
+from GUI import TextField
 
 #create the master class
 class Obscure_Reference_Main( main_application.Main_Application ):
@@ -276,7 +278,6 @@ class Obscure_Reference_Main( main_application.Main_Application ):
 
    #this method doesn't conform to naming standard because it is 
    #automatically called by the GUI framework
-   #def open_app( self ):
    def open_app(self):
       
       #perform the login
@@ -319,22 +320,138 @@ class Obscure_Reference_Main( main_application.Main_Application ):
 
    #end open_app
 
+   def _Create_Overall_Player_Frame( self ):
+      """This method is used to create the overall player frame used when 
+      displaying the players."""
+
+      #retrieve the main frame from the GUI
+      main_frame = self._main_gui.Get_Main_Frame()
+
+      #create the overall player frame
+      self._overall_player_frame = \
+         Frame( container = main_frame,
+                anchor = "ltrb",
+                size = ( main_frame.width,
+                         main_frame.height ) )
+
+      #create the search button
+      self._player_search_button = Button( "Player Search", 
+                                           action = "Player_Search", 
+                                           style = "default" )
+      
+      #put the button in the frame
+      self._overall_player_frame.place( self._player_search_button,
+                                        left = 0,
+                                        top = 0 )
+      
+      #create the text box
+      self._player_search_field = \
+         TextField( width = number_constants.text_box_width )
+         
+      #put the field on the frame
+      self._overall_player_frame.place( \
+              self._player_search_field,
+              left = self._player_search_button.right )
+
+   #end _Create_Overall_Player_Frame
+
+   def Players_Matching_String( self,
+                                search_string ):
+      """This method will look through the player list for any matching the 
+      provided search string."""
+      
+      #shift the search string to lower case
+      search_string = search_string.lower()
+      
+      player_list = {}
+      
+      #loop through the player list
+      for current_player in self._player_list:
+         
+         #shift the player name to lower case
+         lower_current_player = current_player.lower( )
+         
+         #if we have a match with the player
+         if 0 < lower_current_player.count( search_string ):
+            #add this player to the list
+            player_list[current_player] = self._player_list[current_player]
+         #end if we have a match
+      #end loop through player list
+      
+      return player_list
+      
+   #end Players_Matching_String
+
+   def Player_Search( self ):
+      """This method will be invoked when the user clicks the player search
+      button."""
+
+      #retrieve the search string
+      search_string = self._player_search_field.get_text( )
+
+      #get the players matching the search string
+      player_list = self.Players_Matching_String( search_string )
+      
+      #clear the existing player frame
+      self._overall_player_frame.remove( self._player_frame )
+
+      main_frame = self._main_gui.Get_Main_Frame( )
+      
+      #create a new player frame with the new list
+      self._player_frame = \
+         player_frame.Player_Frame( player_list = player_list,
+                                    player_keys = self._player_header_keys,
+                                    container = self._overall_player_frame,
+                                    anchor = "ltrb",
+                                    scrolling = "",
+                                    size = (main_frame.width - 40, #TODO: Magic numbers need tweaked and defined
+                                            (self._overall_player_frame.height - 
+                                             self._player_search_button.height -
+                                             number_constants.basic_pad - 
+                                             number_constants.half_pad)))
+
+      #put the overall player frame on the GUI
+      self._overall_player_frame.place( \
+              self._player_frame,
+              sticky = "nsew", 
+              top = (self._player_search_button.bottom + \
+                     number_constants.half_pad))
+
+      self._main_gui.Receive_New_Frame(self._overall_player_frame)
+
+   #end Player_Search
+
    def Show_Players( self ):
       """This method will cause the list of players to be displayed."""
 
-      
+
+      self._Create_Overall_Player_Frame( )
+
+      #retrieve the main frame from the GUI
+      main_frame = self._main_gui.Get_Main_Frame()
+
       #create the player frame
       self._player_frame = \
          player_frame.Player_Frame( player_list = self._player_list,
                                     player_keys = self._player_header_keys,
-                                    container = self._main_gui._main_frame,
+                                    container = self._overall_player_frame,
                                     anchor = "ltrb",
                                     scrolling = "",
-                                    size = (self._main_gui._main_frame.width - 40, #TODO: Magic numbers need tweaked and defined
-                                            self._main_gui._main_frame.height - 40))
+                                    size = (main_frame.width - 40, #TODO: Magic numbers need tweaked and defined
+                                            (self._overall_player_frame.height - 
+                                             self._player_search_button.height -
+                                             number_constants.basic_pad - 
+                                             number_constants.half_pad)))
+
+      #put the overall player frame on the GUI
+      self._overall_player_frame.place( \
+              self._player_frame,
+              sticky = "nsew", 
+              top = (self._player_search_button.bottom + \
+                     number_constants.half_pad))
 
       #give the new frame to the main GUI
-      self._main_gui.Receive_New_Frame( self._player_frame )
+      self._main_gui.Receive_New_Frame( self._overall_player_frame )
 
    #end Show_Players
 
