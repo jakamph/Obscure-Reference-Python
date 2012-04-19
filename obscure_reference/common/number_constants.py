@@ -9,8 +9,6 @@
 # the basic pad to use for the GUIS
 basic_pad = 20
 
-half_pad = basic_pad / 2
-
 # a number to represent an invalid salary
 invalid_salary = -1
 
@@ -28,5 +26,3 @@ raise_per_year = 5
 
 # the width of the action buttons
 action_button_width = 80
-
-text_box_width = 150

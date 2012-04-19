@@ -253,5 +253,16 @@ class Player( reference_object.Reference_Object ):
       return self._manager_string
 
    #end Get_Manager_Name
+   
+   def Set_Manager_Name( self, manager_name ):
+      """This method will change the name of the team on which this player
+      appears."""
+      
+      # Change this locally
+      self._manager_string = manager_name
+      self._raw_data.custom[string_definitions.player_manager].text =\
+         manager_name      
+   #end Set_Manager_Name
+
 
 #end class Player

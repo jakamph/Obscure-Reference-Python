@@ -466,12 +466,17 @@ class Obscure_Reference_Main( main_application.Main_Application ):
    def Add_Player( self,
                    player ):
       """This function will add the player to the current team."""
-      print( "Add a player!" )
+      if self._current_manager <> None:
+         # Change the local data
+         self._current_manager.Add_Player( player )
+         # Update the database
+         self._parser.Set_Player_Line( player.Get_Raw_Data( ).custom )
+      #end if 
    #end Add_Player
 
    def Drop_Player( self,
                     player ):
-      """This function will add the player to the current team."""
+      """This function will drop the player from the current team."""
       
       #create the confirm dialog
       confirm_dialog = ModalDialog( title = "Please Confirm" )
