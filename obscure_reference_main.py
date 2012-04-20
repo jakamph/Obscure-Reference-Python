@@ -464,9 +464,20 @@ class Obscure_Reference_Main( main_application.Main_Application ):
    #end Show_Transactions
 
    def Add_Player( self,
-                   player ):
+                   player_to_add ):
       """This function will add the player to the current team."""
-      print( "Add a player!" )
+      
+      if self._current_manager <> None:
+         # Change the local data
+         self._current_manager.Add_Player( player_to_add )
+         
+         #tell the player their new manager
+         player_to_add.Set_Manager_Name( \
+            self._current_manager.Get_Email( ) )
+         
+         #update the database
+         self._parser.Set_Player_Line(player_to_add.Get_Raw_Data())
+      #end if
    #end Add_Player
 
    def Drop_Player( self,

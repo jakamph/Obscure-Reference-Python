@@ -166,19 +166,20 @@ class Database_Parser( database_interaction.Database_Interaction ):
 
       formatted_player_data = {}
 
-      for key in player_data:
+      for key in player_data.custom:
 
          #make sure that this is something that we're supposed to copy
          if key not in string_definitions.added_player_data:
 
             #save the data in the formatted structure
-            formatted_player_data[key] = player_data[key]
+            formatted_player_data[key] = player_data.custom[key].text
 
          #end if something to copy
       #end loop through player data
 
-      self.Set_Line( self._player_feed,
-                     player_data[string_definitions.player_row_reference],
+      #self.Set_Line( self._player_feed,
+      #               player_data[string_definitions.player_row_reference],
+      self.Set_Line( player_data,
                      formatted_player_data )
 
    #end Set_Player_Line

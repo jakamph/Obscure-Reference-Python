@@ -85,4 +85,13 @@ class Manager( reference_object.Reference_Object ):
       #give this player to the team
       self._team.Add_Player(player)
 
+   #end Add_Player
+   
+   def Get_Email( self ):
+      """This method will retrieve the email address of this manager."""
+
+      return self._email_address
+   
+   #end Get_Email
+
 #end class Manager
