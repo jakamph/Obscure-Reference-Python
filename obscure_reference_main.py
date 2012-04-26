@@ -50,6 +50,7 @@ from GUI import ModalDialog
 from GUI import Label 
 from GUI import Button
 from GUI import TextField
+from GUI.StdButtons import DefaultButton
 
 #create the master class
 class Obscure_Reference_Main( main_application.Main_Application ):
@@ -474,9 +475,42 @@ class Obscure_Reference_Main( main_application.Main_Application ):
          #tell the player their new manager
          player_to_add.Set_Manager_Name( \
             self._current_manager.Get_Email( ) )
+         try:
+            #update the database
+            self._parser.Set_Player_Line(player_to_add.Get_Raw_Data())
          
-         #update the database
-         self._parser.Set_Player_Line(player_to_add.Get_Raw_Data())
+            #update the GUI
+            self.Show_Team( self._current_manager.Get_Username( ) )
+         #end try
+         except gdata.service.RequestError:
+            #create a modal dialog to show
+            error_dialog = ModalDialog(title = "Couldn't Add Player", 
+                                       size = (400, 70))
+            
+            #create an information label
+            error_dialog.place(Label(text = "Player has already " + \
+                                            "been added by someone else"), 
+                               left = 20, 
+                               top = 20)
+                               
+            #create the button
+            error_dialog.default_button = DefaultButton()
+            
+            error_dialog.place(error_dialog.default_button, 
+                               right = -20, 
+                               bottom = -20)
+
+            #start the reload of the players
+            self.Load_Player_Data( )
+
+            #show the dialog
+            result = error_dialog.present()
+            
+            #re-show the player data
+            self.Show_Players()
+
+         #end except
+            
       #end if
    #end Add_Player
 
