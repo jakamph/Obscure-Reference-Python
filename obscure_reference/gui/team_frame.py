@@ -45,17 +45,31 @@ class Team_Frame( Frame ):
       #create the frame to contain the manager information
       self._manager_frame = self._Create_Manager_Frame( )
 
+      self._bottom_frame = Frame( container = self,
+                                  top = self._manager_frame.height,
+                                  anchor = "ltrb",
+                                  height = self.height - self._manager_frame.height,
+                                  width = self.width )
+
       self.place( self._manager_frame )
+      self.place( self._bottom_frame )
 
       #the player frame will be the bottom two thirds of the team frame
       self._player_frame = \
          player_frame.Player_Frame( self._player_list,
                                     player_keys,
+                                    #container = self._bottom_frame,
                                     container = self,
                                     top = self._manager_frame.height,
+                                    #top = 0,
                                     anchor = "ltrb",
+                                    #scrolling = "v",
                                     scrolling = "hv",
                                     height = (self.height * 2 / 3),
+                                    #height = (50 * len(self._player_list)),
+                                    #height = self._bottom_frame.height,
+                                    #width = self.width )
+                                    #extent = (0, (100 * len(self._player_list))) )
                                     width = self.width,
                                     extent = (750, 500) ) # TODO programatically determine what the scrolling extent needs to be. 
 
@@ -68,7 +82,7 @@ class Team_Frame( Frame ):
       #current area
       man_frame = Frame( container = self,
                          top = 0,
-                         height = (self.height / 3),
+                         height = (self.height / 4),
                          width = self.width )
       
       #create a label for the manager name

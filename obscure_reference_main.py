@@ -261,7 +261,7 @@ class Obscure_Reference_Main( main_application.Main_Application ):
             #retrieve the manager name
             manager_name = this_player.Get_Manager_Name()
 
-            #determine iff this player is on a team
+            #determine if this player is on a team
             if manager_name <> None and manager_name <> "":
 
                #get the manager
@@ -478,6 +478,12 @@ class Obscure_Reference_Main( main_application.Main_Application ):
          try:
             #update the database
             self._parser.Set_Player_Line(player_to_add.Get_Raw_Data())
+
+            #change the player information with the username
+            #string instead of the whole email address
+            player_to_add.Set_Manager_Name( \
+               string_definitions.Extract_Username( \
+                  self._current_manager.Get_Email( ) ) )
          
             #update the GUI
             self.Show_Team( self._current_manager.Get_Username( ) )
@@ -504,7 +510,7 @@ class Obscure_Reference_Main( main_application.Main_Application ):
             self.Load_Player_Data( )
 
             #show the dialog
-            result = error_dialog.present()
+            error_dialog.present()
             
             #re-show the player data
             self.Show_Players()
@@ -525,8 +531,6 @@ class Obscure_Reference_Main( main_application.Main_Application ):
                                          player.Get_Name( ) + "?" ), 
                             left = 20, top = 20 )
 
-      
-
       #center the dialog
       confirm_dialog.center( )
       
@@ -534,6 +538,7 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       #this
       confirm = confirm_dialog.present( )
       
+      #if the user was sure
       if confirm:
          None
       #end if user wants to continue
