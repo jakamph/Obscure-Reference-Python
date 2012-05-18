@@ -16,7 +16,13 @@ class Custom_Grid( Frame ):
       Frame.__init__( self )
       self._hpad, self._vpad = padding
       self._num_rows = len( items )
-      self._num_cols = max( [len( row ) for row in items] )
+      
+      #make sure we have rows to show
+      if self._num_rows > 0:
+      
+         self._num_cols = max( [len( row ) for row in items] )
+         
+      #end make sure there are rows to show
       self._col_widths = [0] * self._num_cols
       self._row_heights = [0] * self._num_rows
       
