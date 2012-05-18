@@ -4,7 +4,7 @@ Created on Apr 7, 2012
 @author: clay
 '''
 from GUI import ScrollableView
-from gui import custom_grid
+from obscure_reference.gui import custom_grid
 
 class Scrolling_Grid_View( ScrollableView ):
    '''
