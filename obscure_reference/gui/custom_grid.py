@@ -17,6 +17,8 @@ class Custom_Grid( Frame ):
       self._hpad, self._vpad = padding
       self._num_rows = len( items )
       
+      self._num_cols = 0
+      
       #make sure we have rows to show
       if self._num_rows > 0:
       
