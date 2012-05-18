@@ -16,7 +16,7 @@ from GUI import Row
 import obscure_reference.gui.custom_grid as custom_grid
 
 import obscure_reference.reference_objects.player
-from gui.scrolling_grid_view import Scrolling_Grid_View
+from obscure_reference.gui.scrolling_grid_view import Scrolling_Grid_View
 
 class Player_Frame( ScrollableView ):
    def __init__( self,
