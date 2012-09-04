@@ -180,7 +180,8 @@ class Obscure_Main_Gui( Window ):
       manager_name = self._controller.Get_Current_Manager_Name( )
       
       #display the team
-      self._controller.Show_Team( manager_name = manager_name ) 
+      self._controller.Show_Team( manager_name = manager_name,
+                                  internal_switch = True ) 
       
    #end Go_To_My_Team
 

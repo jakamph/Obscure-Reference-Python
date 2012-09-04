@@ -51,6 +51,7 @@ from GUI import Label
 from GUI import Button
 from GUI import TextField
 from GUI.StdButtons import DefaultButton
+from GUI.StdButtons import CancelButton
 
 #create the master class
 class Obscure_Reference_Main( main_application.Main_Application ):
@@ -464,58 +465,102 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       
    #end Show_Transactions
 
+   def _Ask_User( self,
+                  question ):
+      """This method will ask the user if they're sure that they
+      want to do what they've said they do. Basically, we're protecting
+      them from themselves."""
+
+      
+      #create the confirm dialog
+      confirm_dialog = ModalDialog( title = "Please Confirm" )
+      
+      confirm_dialog.place( Label(text = question ), 
+                            left = 20, 
+                            top = 20 )
+
+      #create the buttons for OK/Cancel
+      confirm_dialog.default_button = DefaultButton()
+      confirm_dialog.cancel_button = CancelButton()
+
+      #put the buttons on the GUI
+      confirm_dialog.place( confirm_dialog.default_button, 
+                            right = -20, 
+                            bottom = -20 )
+      confirm_dialog.place( confirm_dialog.cancel_button, 
+                            left = 20, 
+                            bottom = -20 )
+
+      #center the dialog
+      confirm_dialog.center( )
+      
+      #ask for confirmation to make sure that the user really wants to do
+      #this
+      confirm = confirm_dialog.present( )      
+      
+      return confirm
+      
+   #end _Ask_User
+
    def Add_Player( self,
                    player_to_add ):
       """This function will add the player to the current team."""
       
       if self._current_manager <> None:
-         # Change the local data
-         self._current_manager.Add_Player( player_to_add )
          
-         #tell the player their new manager
-         player_to_add.Set_Manager_Name( \
-            self._current_manager.Get_Email( ) )
-         try:
-            #update the database
-            self._parser.Set_Player_Line(player_to_add.Get_Raw_Data())
-
-            #change the player information with the username
-            #string instead of the whole email address
+         if self._Ask_User( "Are you sure that you want to\n add " + \
+                            player_to_add.Get_Name( ) + \
+                            "?" ):
+         
+            # Change the local data
+            self._current_manager.Add_Player( player_to_add )
+         
+            #tell the player their new manager
             player_to_add.Set_Manager_Name( \
-               string_definitions.Extract_Username( \
-                  self._current_manager.Get_Email( ) ) )
-         
-            #update the GUI
-            self.Show_Team( self._current_manager.Get_Username( ) )
-         #end try
-         except gdata.service.RequestError:
-            #create a modal dialog to show
-            error_dialog = ModalDialog(title = "Couldn't Add Player", 
-                                       size = (400, 70))
-            
-            #create an information label
-            error_dialog.place(Label(text = "Player has already " + \
-                                            "been added by someone else"), 
-                               left = 20, 
-                               top = 20)
-                               
-            #create the button
-            error_dialog.default_button = DefaultButton()
-            
-            error_dialog.place(error_dialog.default_button, 
-                               right = -20, 
-                               bottom = -20)
+               self._current_manager.Get_Email( ) )
+            try:
+               #update the database
+               self._parser.Set_Player_Line(player_to_add.Get_Raw_Data())
 
-            #start the reload of the players
-            self.Load_Player_Data( )
-
-            #show the dialog
-            error_dialog.present()
+               #change the player information with the username
+               #string instead of the whole email address
+               player_to_add.Set_Manager_Name( \
+                  string_definitions.Extract_Username( \
+                     self._current_manager.Get_Email( ) ) )
             
-            #re-show the player data
-            self.Show_Players()
+               #update the GUI
+               self.Show_Team( self._current_manager.Get_Username( ) )
+            #end try
+            except gdata.service.RequestError:
+               #create a modal dialog to show
+               error_dialog = ModalDialog(title = "Couldn't Add Player", 
+                                          size = (400, 70))
+               
+               #create an information label
+               error_dialog.place(Label(text = "Player has already " + \
+                                               "been added by someone else"), 
+                                  left = 20, 
+                                  top = 20)
+                                  
+               #create the button
+               error_dialog.default_button = DefaultButton()
+               
+               error_dialog.place(error_dialog.default_button, 
+                                  right = -20, 
+                                  bottom = -20)
+   
+               #start the reload of the players
+               self.Load_Player_Data( )
+   
+               #show the dialog
+               error_dialog.present()
+               
+               #re-show the player data
+               self.Show_Players()
+   
+            #end except
 
-         #end except
+         #end if user confirmed
             
       #end if
    #end Add_Player
@@ -523,28 +568,14 @@ class Obscure_Reference_Main( main_application.Main_Application ):
    def Drop_Player( self,
                     player ):
       """This function will add the player to the current team."""
-      
-      #create the confirm dialog
-      confirm_dialog = ModalDialog( title = "Please Confirm" )
-      
-      confirm_dialog.place( Label(text = "Do you really want to drop" +\
-                                         player.Get_Name( ) + "?" ), 
-                            left = 20, top = 20 )
 
-      #center the dialog
-      confirm_dialog.center( )
-      
-      #ask for confirmation to make sure that the user really wants to do
-      #this
-      confirm = confirm_dialog.present( )
-      
+      confirm = self._Ask_User( "Are you sure that you want to \ndrop " + \
+                                player.Get_Name( ) + \
+                                "?" )
       #if the user was sure
       if confirm:
-         None
+         print( "They want to drop!" )
       #end if user wants to continue
-      else:
-         None
-      #end if user does not want to continue
          
    #end Drop_Player
 
@@ -589,7 +620,8 @@ class Obscure_Reference_Main( main_application.Main_Application ):
    #end _Create_Overall_Team_Frame
 
    def Show_Team( self,
-                  manager_name ):
+                  manager_name,
+                  internal_switch = False ):
       """This method will show the team based on the name of the team's 
       manager."""
 
@@ -602,6 +634,11 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       #end if the team frame did exist before
 
       display_manager = self._manager_list[manager_name]
+
+      #if this is a switch triggered by the program
+      #if internal_switch:
+      #   self._team_dropdown.Set_Value(  )
+      #end if internal switch
 
       #create this team's frame      
       self._team_frame = \
