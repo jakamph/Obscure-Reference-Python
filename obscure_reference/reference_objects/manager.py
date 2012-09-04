@@ -86,6 +86,16 @@ class Manager( reference_object.Reference_Object ):
       self._team.Add_Player(player)
 
    #end Add_Player
+
+   def Drop_Player( self,
+                    player ):
+      """This method will drop the specified player from this manager's 
+      team."""
+      
+      #give this player to the team
+      self._team.Drop_Player( player )
+      
+   #end Drop_Player
    
    def Get_Email( self ):
       """This method will retrieve the email address of this manager."""
