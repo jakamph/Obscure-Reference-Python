@@ -238,5 +238,31 @@ class Database_Parser( database_interaction.Database_Interaction ):
       
       return year
    #end Get_Current_Year
+   
+   
+   def Get_Season_Stage_By_Year( self, session_table, year ):
+      """This method will get the current season stage for the specified year.
+      """
+      #Initialize the stage to invalid value
+      stage = number_constants.invalid_season_stage
+      
+      #get the feed from the table
+      session_feed = self.Get_Feed( session_table )
+      
+      #make sure we have a valid session feed
+      if None <> session_feed:
+         #get the list of entries in the table
+         entries = session_feed.entry
+         for entry in entries:
+            if entry.custom[string_definitions.season_year_field].text == year:
+               #pull out the current stage
+               stage = entry.custom[string_definitions.season_stage_field].text
+               break
+            #end if year is the year specified
+         #end for each entry in the list of entries
+      #end if valid session feed
+      
+      return stage
+   #end def Get_Current_Season_Stage
 
 #end class Database_Parser

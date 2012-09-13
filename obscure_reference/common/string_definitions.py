@@ -31,6 +31,13 @@ team_name = "teamname"
 #session table definitions
 session_table_name = "session"
 season_year_field = "seasonyear"
+season_stage_field = "seasonstage"
+new_ffb_year_date_field = "newffbyeardate"
+keeper_deadline_field = "keeperdeadline"
+draft_date_field = "draftdate"
+season_start_field = "seasonstart"
+season_end_field = "seasonend"
+
 
 default_database_name = "Obscure Reference Database Test"
 
