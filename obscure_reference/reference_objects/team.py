@@ -50,41 +50,23 @@ class Team:
    #end Add_Player
    
    def Drop_Player( self,
-                    player_name ):
+                    player ):
       """This method will drop the player from the team's list."""
-      
-      found_player = None
-      
-      for player in self._player_list:
-         
-         if player.Get_Name( ) == player_name:
-            
-            found_player = player
-            
-            #break out of the loop
-            break
-         
-         #end if match found
-      
-      #end loop through the player list
-      
-      #if we have a match
-      if None <> found_player:
-         
-         #if the player isn't on the disabled list
-         if not found_player.On_Disabled_List:
-            
-            self._player_count -= 1
-            
-         #end if player isn't on the disabeled list
-         
-         #reduce the team salary by the player's salary amount
-         self._salary -= found_player.Get_Salary( )
 
-         #remove the player from the list
-         self._player_list.pop( found_player )
-
-      #end if match found
+      
+      #add the player's salary to the team's salary
+      self._salary -= player.Get_Current_Salary( )
+      
+      # this player only counts against the roster max if they're not on
+      # the disabled list
+      if not player.On_Disabled_List( ):
+      
+         self._player_count -= 1
+      
+      #end if player is not on the disabled list
+      
+      #remove the player in the team's list
+      self._player_list.pop(player.Get_Name( ))
       
    #end Drop_Player
    
