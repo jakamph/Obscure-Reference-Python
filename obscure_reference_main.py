@@ -91,7 +91,12 @@ class Obscure_Reference_Main( main_application.Main_Application ):
       #retrieve the teams feed
       self._manager_feed = \
          self._parser.Get_Feed(self._manager_table)
-      
+         
+      #because we could log in with any variation of periods in the 
+      #username field, we need to strip them out to make sure we get a 
+      #good comparison
+      filtered_user_name = self._username.replace( ".", "" )
+
       #create manager objects based on the information in the table
       for raw_manager in self._manager_feed.entry:
       
@@ -101,8 +106,12 @@ class Obscure_Reference_Main( main_application.Main_Application ):
          #save the manager in the manager list based on the username
          self._manager_list[current_manager.Get_Username( )] = current_manager
 
+         current_manager_name = \
+            current_manager.Get_Username( ).replace( ".", "" )
+         
+
          #check for a match with the provided username
-         if self._username == current_manager.Get_Username():
+         if filtered_user_name == current_manager_name:
             self._current_manager = current_manager
          #end if we have a match with the login username
       
