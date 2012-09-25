@@ -10,6 +10,7 @@
 import obscure_reference.common.number_constants as number_constants
 import obscure_reference.common.string_definitions as string_definitions
 import obscure_reference.database.database_interaction as database_interaction
+import obscure_reference.reference_objects.transaction as transaction
 
 class Database_Parser( database_interaction.Database_Interaction ):
 
